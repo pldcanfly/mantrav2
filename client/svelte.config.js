@@ -8,7 +8,11 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
-		adapter: adapter()
+		alias: {
+			'$store/*': ['src/store/*']
+		},
+		adapter: adapter(),
+		trailingSlash: 'always'
 	}
 };
 
