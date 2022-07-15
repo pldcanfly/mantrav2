@@ -1,9 +1,6 @@
 'use strict';
 
 import { View } from '../..';
-import { CampaignView } from '../views/campaign.js';
-import { ClicktrackView } from '../views/clicktrack.js';
-import { ExportView } from '../views/export.js';
 
 import { FilesView } from '../views/system/files.js';
 
@@ -32,23 +29,5 @@ export const routes: Array<RouteNode> = [
     view: FilesView,
     params: { type: 'static' },
     //methods: ['get'],
-  },
-  {
-    path: 'click/:campaign:/:pos:/',
-    view: ClicktrackView,
-    params: { type: 'click' },
-  },
-  {
-    path: 'impression/:campaign:',
-    view: ClicktrackView,
-    params: { type: 'impression' },
-  },
-  {
-    path: 'reports/campaigns',
-    view: CampaignView,
-  },
-  {
-    path: 'export/:type:/:key:',
-    view: ExportView,
   },
 ];
