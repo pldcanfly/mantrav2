@@ -9,7 +9,7 @@ const config = {
 
 	kit: {
 		alias: {
-			'$store/*': ['src/store/*']
+			$store: 'src/stores'
 		},
 		adapter: adapter(),
 		trailingSlash: 'always'

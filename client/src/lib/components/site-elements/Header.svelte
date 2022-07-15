@@ -6,6 +6,9 @@
 			<a href="/" class="nav-item"><span>Roster</span></a>
 		</div>
 	</div>
+	<div class="right">
+		Login
+	</div>
 </nav>
 
 <style lang="scss">
