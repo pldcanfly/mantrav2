@@ -13,11 +13,11 @@
 
 <style lang="scss">
 	$pagepadding: 20px;
-
 	:global {
 		body {
 			--c__background: #eee;
 			--c__text: #6002ee;
+			--c_iconsize: 40px;
 		}
 
 		body.dark {
@@ -28,6 +28,23 @@
 			--c__shadow_inset: inset 0 0 0px rgba(0, 0, 0, 0.5);
 			--c__link: #4c8551;
 			--c__highlight: #444;
+
+			--c__green: #3b683f;
+			--c__dark-green: #2a492d;
+			--c__light-green: #4c8551;
+
+			--c__red: #944040;
+			--c__dark-red: #632d2d;
+			--c__light-red: #a44c4c;
+		}
+
+		.noselect {
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
 		}
 
 		body {
@@ -63,7 +80,6 @@
 			padding-right: $pagepadding;
 		}
 	}
-
 	.page {
 		padding: $pagepadding;
 	}

@@ -2,13 +2,12 @@
 	<div class="left">
 		Mantra Raidplaner
 		<div class="nav-container">
-			<a href="/" class="nav-item"><span>Raids</span></a>
-			<a href="/" class="nav-item"><span>Roster</span></a>
+			<a href="/raids/" class="nav-item"><span>Raids</span></a>
+			<a href="/roster/" class="nav-item"><span>Roster</span></a>
+			<a href="/links/" class="nav-item"><span>Links</span></a>
 		</div>
 	</div>
-	<div class="right">
-		Login
-	</div>
+	<div class="right">Login</div>
 </nav>
 
 <style lang="scss">

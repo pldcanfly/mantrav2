@@ -9,3 +9,60 @@ declare namespace App {
 	// interface Session {}
 	// interface Stuff {}
 }
+
+interface iCharacter {
+	name: string;
+	race: Race;
+	clazz: Clazz;
+	specc: Specc;
+	offspecc?: Specc;
+	female: boolean;
+}
+
+type Clazz =
+	| 'warrior'
+	| 'paladin'
+	| 'hunter'
+	| 'rogue'
+	| 'priest'
+	| 'shaman'
+	| 'mage'
+	| 'warlock'
+	| 'druid'
+	| 'deathknight';
+
+type Race = 'orc' | 'tauren' | 'troll' | 'undead' | 'bloodelf';
+
+type Specc =
+	| 'warms'
+	| 'wfury'
+	| 'wprot'
+	| 'pholy'
+	| 'pprot'
+	| 'pretri'
+	| 'hbm'
+	| 'hmm'
+	| 'hsv'
+	| 'rassa'
+	| 'rcombat'
+	| 'rsub'
+	| 'prdisc'
+	| 'prshadow'
+	| 'sele'
+	| 'sench'
+	| 'sresto'
+	| 'marcane'
+	| 'mfire'
+	| 'mfrost'
+	| 'waffli'
+	| 'wdemo'
+	| 'wdestro'
+	| 'dbalance'
+	| 'dferal'
+	| 'dresto'
+	| 'dbear'
+	| 'dkblood'
+	| 'dkfrost'
+	| 'dkunholy';
+
+type iIcons = 'archimonde' | 'grulls' | 'illidan' | 'kara' | 'keal' | 'kj' | 'naxx' | 'vashij';

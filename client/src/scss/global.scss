@@ -1,0 +1,18 @@
+@mixin green-hoverable {
+	background-color: var(--c__green);
+	cursor: pointer;
+	transition: all 0.2s;
+
+	&:hover {
+		background-color: var(--c__light-green);
+	}
+}
+@mixin red-hoverable {
+	background-color: var(--c__red);
+	cursor: pointer;
+	transition: all 0.2s;
+
+	&:hover {
+		background-color: var(--c__light-red);
+	}
+}

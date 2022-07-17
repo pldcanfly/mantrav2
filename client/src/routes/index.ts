@@ -1,7 +1,8 @@
 export async function get() {
 	return {
-		body: {
-			number: Math.random()
+		status: 308,
+		headers: {
+			location: `/raids/`
 		}
 	};
 }
