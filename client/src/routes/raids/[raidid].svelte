@@ -13,15 +13,29 @@
 	import type { iRaid, iSignup } from './[raidid]';
 
 	export let raid: iRaid;
-	let unpositioned: Array<iSignup> = raid.signups.filter(
+	$: unpositioned = raid.signups.filter(
 		(signup) => signup.position == -1 && ['accepted', 'invited', 'declined'].includes(signup.state)
 	);
 
-	let benched: Array<iSignup> = raid.signups.filter(
+	$: benched = raid.signups.filter(
 		(signup) => signup.position == -1 && ['benched'].includes(signup.state)
 	);
 
-	let roster: Array<iSignup> = raid.signups.filter((signup) => signup.position != -1);
+	$: roster = raid.signups.filter((signup) => signup.position != -1);
+
+	const handleDrop = (position: number) => {
+		return (dropped: string) => {
+			const char = JSON.parse(dropped) as iSignup;
+
+			//console.log(char, { test: 123 });
+			const signup = raid.signups.find((signup) => signup.character.id == char.character.id);
+			if (signup) {
+				console.log('Drop!!', signup, position);
+				signup.position = position;
+				raid = raid;
+			}
+		};
+	};
 </script>
 
 <h1>Raid {raid.name}</h1>
@@ -69,8 +83,14 @@
 				</div>
 
 				{#each Array(size) as _, pos}
-					<Dropable onDrop={(val) => console.log('dropped', val)}>
-						<div class="pos dropable">Frei {group * size + pos}</div>
+					{@const relativepos = group * size + pos}
+					{@const signup = roster.find((signup) => signup.position == relativepos)}
+					<Dropable onDrop={handleDrop(relativepos)}>
+						{#if signup}
+							<SignupCharacter {signup} />
+						{:else}
+							<div class="pos dropable">Frei</div>
+						{/if}
 					</Dropable>
 				{/each}
 			</div>

@@ -11,6 +11,7 @@ declare namespace App {
 }
 
 interface iCharacter {
+	id: number;
 	name: string;
 	race: Race;
 	clazz: Clazz;

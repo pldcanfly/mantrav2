@@ -31,6 +31,7 @@ export async function get({ params }: { params: any }) {
 					position: -1,
 					actions: false,
 					character: {
+						id: 1,
 						name: 'Feralface',
 						clazz: 'druid',
 						specc: 'dferal',
@@ -44,6 +45,7 @@ export async function get({ params }: { params: any }) {
 					position: -1,
 					actions: false,
 					character: {
+						id: 2,
 						name: 'Bishop',
 						clazz: 'priest',
 						specc: 'prshadow',
@@ -58,6 +60,7 @@ export async function get({ params }: { params: any }) {
 					actions: true,
 					comment: 'Ballern alter!',
 					character: {
+						id: 3,
 						name: 'Kessedy',
 						clazz: 'deathknight',
 						specc: 'dkblood',

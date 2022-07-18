@@ -4,7 +4,7 @@
 
 	const handleDragstart = (e: DragEvent) => {
 		pickedup = true;
-		e.dataTransfer?.setData('text/plain', JSON.stringify(data));
+		e.dataTransfer?.setData('text/plain', data);
 	};
 
 	const handleDragend = () => {

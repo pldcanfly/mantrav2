@@ -19,14 +19,15 @@
 	};
 </script>
 
-<div class="signup" class:actions>
-	{#if signup.state == 'invited' || signup.state == 'accepted' || signup.state == 'declined'}
-		{@const character = signup.character}
+{#if signup.position == -1 && ['invited', 'accepted', 'declined'].includes(signup.state)}
+	{@const character = signup.character}
+	<div class="signup" class:actions>
 		<div class="class">
 			<SpeccIcon specc={character.specc} offspecc={character.offspecc} size={40} />
 		</div>
 		<div class="text" style:color={classTable[character.clazz].color}>
 			{character.name}
+			{signup.position}
 		</div>
 		<div class="comment">
 			{#if signup.comment}
@@ -59,10 +60,10 @@
 				{/if}
 			</div>
 		{/if}
-	{:else}
-		{signup.character.name} {signup.state}
-	{/if}
-</div>
+	</div>
+{:else}
+	{signup.character.name} {signup.state}
+{/if}
 
 <style lang="scss">
 	.signup {

@@ -9,6 +9,7 @@ export async function get() {
 	const roster: Roster = {
 		melee: [
 			{
+				id: 1,
 				name: 'Feralface',
 				clazz: 'druid',
 				specc: 'dferal',
@@ -18,6 +19,7 @@ export async function get() {
 			},
 
 			{
+				id: 1,
 				name: 'Beralface',
 				clazz: 'druid',
 				specc: 'dbalance',
@@ -26,6 +28,7 @@ export async function get() {
 				female: true
 			},
 			{
+				id: 1,
 				name: 'Feralface',
 				clazz: 'druid',
 				specc: 'dresto',
@@ -36,6 +39,7 @@ export async function get() {
 		],
 		ranged: [
 			{
+				id: 1,
 				name: 'Bishop',
 				clazz: 'priest',
 				specc: 'prshadow',
@@ -46,6 +50,7 @@ export async function get() {
 		],
 		tank: [
 			{
+				id: 1,
 				name: 'Kessedy',
 				clazz: 'deathknight',
 				specc: 'dkblood',
@@ -54,6 +59,7 @@ export async function get() {
 				female: true
 			},
 			{
+				id: 1,
 				name: 'Tankface',
 				clazz: 'warrior',
 				specc: 'wprot',
