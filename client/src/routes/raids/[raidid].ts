@@ -44,6 +44,37 @@ export async function get({ params }: { params: any }) {
 					state: 'accepted',
 					position: -1,
 					actions: false,
+					comment: 'Dies ist ein Test.\nMit mehreren Zeilen!\n\n aber ohne <span>html</span>',
+					character: {
+						id: 2,
+						name: 'Bishop',
+						clazz: 'priest',
+						specc: 'prshadow',
+						offspecc: 'pholy',
+						race: 'undead',
+						female: false
+					}
+				},
+				{
+					state: 'accepted',
+					position: -1,
+					actions: false,
+					comment: 'Dies ist ein Test.\nMit mehreren Zeilen!\n\n aber ohne <span>html</span>',
+					character: {
+						id: 2,
+						name: 'Bishop',
+						clazz: 'priest',
+						specc: 'prshadow',
+						offspecc: 'pholy',
+						race: 'undead',
+						female: false
+					}
+				},
+				{
+					state: 'accepted',
+					position: -1,
+					actions: false,
+					comment: 'Dies ist ein Test.\nMit mehreren Zeilen!\n\n aber ohne <span>html</span>',
 					character: {
 						id: 2,
 						name: 'Bishop',
@@ -58,7 +89,7 @@ export async function get({ params }: { params: any }) {
 					state: 'invited',
 					position: -1,
 					actions: true,
-					comment: 'Ballern alter!',
+
 					character: {
 						id: 3,
 						name: 'Kessedy',
@@ -66,6 +97,20 @@ export async function get({ params }: { params: any }) {
 						specc: 'dkblood',
 						offspecc: 'dkfrost',
 						race: 'bloodelf',
+						female: true
+					}
+				},
+				{
+					state: 'accepted',
+					position: -2,
+					actions: false,
+					character: {
+						id: 1,
+						name: 'Boomkin',
+						clazz: 'druid',
+						specc: 'dbalance',
+						offspecc: 'dbear',
+						race: 'tauren',
 						female: true
 					}
 				}

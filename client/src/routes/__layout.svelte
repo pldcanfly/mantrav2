@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Footer from '$lib/components/site-elements/Footer.svelte';
-	import Header from '$lib/components/site-elements/Header.svelte';
+	import Footer from '$components/site-elements/Footer.svelte';
+	import Header from '$components/site-elements/Header.svelte';
 </script>
 
 <Header />
@@ -62,7 +62,8 @@
 			color: var(--c__link);
 		}
 
-		input {
+		input,
+		textarea {
 			padding: 10px;
 			background-color: var(--c__lighter_background);
 			border: 1px solid var(--c__highlight);

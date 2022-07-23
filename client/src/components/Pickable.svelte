@@ -26,3 +26,9 @@
 >
 	<slot />
 </div>
+
+<style lang="scss">
+	.container {
+		width: 100%;
+	}
+</style>

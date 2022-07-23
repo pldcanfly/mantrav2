@@ -10,7 +10,8 @@ const config = {
 	kit: {
 		alias: {
 			$store: 'src/stores',
-			$icons: 'src/lib/assets/icons'
+			$icons: 'src/lib/assets/icons',
+			$components: 'src/components'
 		},
 		adapter: adapter(),
 		trailingSlash: 'always'

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { blur } from 'svelte/transition';
 	import { goto } from '$app/navigation';
-	import Icon from '$lib/components/Icon.svelte';
+	import Icon from '$components/Icon.svelte';
 	import { mdiArrowLeft, mdiArrowRight } from '@mdi/js';
 	import {
 		startOfMonth,

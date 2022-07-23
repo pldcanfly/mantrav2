@@ -3,7 +3,6 @@ import winston from 'winston';
 const { createLogger, format, transports } = winston;
 import { PostgreSQL_DB } from './classes/dbs/postgresql_db.js';
 import { ACL } from './models/system/acl.js';
-import { EmailQue } from './classes/mailque.js';
 
 const loggeroptions = {
   level: 'info',
@@ -28,8 +27,7 @@ if (process.env.NODE_ENV == 'test') {
 export const logger = createLogger(loggeroptions);
 
 export const db = new PostgreSQL_DB();
-export const mail = new EmailQue();
 
 export const acl = ACL;
 
-export const appspace: Appspace = { logger, db, acl, mail };
+export const appspace: Appspace = { logger, db, acl };

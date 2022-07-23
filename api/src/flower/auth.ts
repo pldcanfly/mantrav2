@@ -19,7 +19,7 @@ const login = async function (res: http.ServerResponse, flowspace: Flowspace) {
       const password = (flowspace.body as LoginRequestBody).password;
 
       if (await User.checkPassword(username, password)) {
-        flowspace.message = await Token.issueTokenPairWithCredentials(await User.getUserByUsernameOrEmail(username));
+        flowspace.message = await Token.issueTokenPairWithCredentials(await User.getUserByUsername(username));
       } else {
         res.statusCode = 401;
         flowspace.message = 'Wrong Username or Password';

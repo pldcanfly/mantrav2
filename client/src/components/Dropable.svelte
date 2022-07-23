@@ -35,27 +35,18 @@
 <style lang="scss">
 	.dropable {
 		position: relative;
+		transition: all 0.2s;
+		box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+		background-color: var(--c__background);
+		border: 1px solid var(--c__background);
 
-		&::after {
-			z-index: 2;
-			position: absolute;
-			content: '';
-
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			opacity: 0;
-			transition: all 0.2s;
-		}
+		margin-top: 5px;
+		display: grid;
+		justify-items: center;
+		align-items: center;
 
 		&.draggedover {
-			&::after {
-				border: 3px solid var(--c__green);
-				background-color: var(--c__dark-green);
-				box-shadow: var(--c__shadow);
-				opacity: 0.8;
-			}
+			box-shadow: 0 0 10px var(--c__light-green);
 		}
 	}
 </style>

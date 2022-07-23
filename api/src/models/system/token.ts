@@ -9,9 +9,7 @@ type AccessPayload = {
   id: number;
   roles: Array<string>;
   perms: Array<string>;
-  email: string;
   username: string;
-  unitId: number;
 };
 
 type RefreshPayload = {
@@ -133,8 +131,6 @@ class TokenModel {
       roles: await ACL.getRolesForUser(user.id),
       perms: await ACL.getPermsForUser(user.id),
       username: user.username,
-      email: user.email,
-      unitId: user.unit_id,
     };
 
     let refreshPayload: RefreshPayload = {

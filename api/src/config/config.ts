@@ -7,18 +7,9 @@ interface Config {
   session: SessionConfig;
   maxLogoFilesize: number;
   maxHeaderFilesize: number;
-  basedir: string;
 }
 
 import { DBConfig, SessionConfig } from '../..';
-
-import { env } from './env.js';
-
-export let basedir = '.';
-
-if (env == 'test') {
-  basedir = '..';
-}
 
 export const useCache = true;
 

@@ -29,13 +29,14 @@ import Headers from './flower/headers.js';
 import View from './flower/view.js';
 import Router from './flower/router.js';
 import BodyData from './flower/bodydata.js';
+import Auth from './flower/auth.js';
 
 const flow = new Flow();
 
 flow.use(Headers);
 flow.use(Router);
 flow.use(BodyData);
-//flow.use(Auth);
+flow.use(Auth);
 flow.use(View);
 flow.listen();
 logger.info('Listening...');

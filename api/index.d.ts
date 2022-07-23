@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 import { PostgreSQL_DB } from './src/classes/dbs/postgresql_db.js';
-import { EmailQue } from './src/classes/mailque.js';
+
 import { JobScheduler } from './src/classes/scheduler/scheduler.js';
 import { ACL } from './src/models/system/acl.js';
 import { UserRecord } from './src/models/system/user.js';
@@ -9,7 +9,6 @@ import { UserRecord } from './src/models/system/user.js';
 type Appspace = {
   db: PostgreSQL_DB;
   acl: typeof ACL;
-  mail?: EmailQue;
   scheduler?: JobScheduler;
   [propName: string]: any;
 };
@@ -106,8 +105,6 @@ interface RequestParams {
 
 interface UserObject {
   id: number;
-  email: string;
-  role: string;
   username: string;
   password: string;
 }

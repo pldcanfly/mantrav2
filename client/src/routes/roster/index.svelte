@@ -2,7 +2,7 @@
 	import type { Roster } from '.';
 
 	export let roster: Roster;
-	import Character from '$lib/components/character/Character.svelte';
+	import Character from '$components/character/Character.svelte';
 
 	const namesort = (a: iCharacter, b: iCharacter) => {
 		if (a.name > b.name) return 1;
