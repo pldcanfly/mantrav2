@@ -2,7 +2,7 @@
 	import type { iSignup } from 'src/routes/raids/[raidid]';
 	import { slide } from 'svelte/transition';
 
-	import { mdiCheck, mdiHelp, mdiClose, mdiCommentText } from '@mdi/js';
+	import { mdiCheck, mdiHelp, mdiClose, mdiCommentText, mdiCommentEdit } from '@mdi/js';
 
 	import SpeccIcon from '$components/Icons/SpeccIcon.svelte';
 
@@ -38,6 +38,17 @@
 	};
 
 	const sanitize = (val: string) => val.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+
+	let commenticon = mdiCommentText;
+	let commenticoncolor = 'var(--c__text)';
+	$: {
+		if (signup.comment) {
+			commenticoncolor = 'var(--c__light-green)';
+		}
+		if (actions) {
+			commenticon = mdiCommentEdit;
+		}
+	}
 </script>
 
 <div class="signup" class:actions={actions && !inroster} class:inroster>
@@ -69,14 +80,8 @@
 		class:pointer={signup.comment || actions}
 		tabindex="0"
 	>
-		{#if signup.comment}
-			<Icon
-				path={mdiCommentText}
-				width={inroster ? '20px' : '25px'}
-				color="var(--c__light-green)"
-			/>
-		{:else}
-			<Icon path={mdiCommentText} width={inroster ? '20px' : '25px'} />
+		{#if signup.comment || actions}
+			<Icon path={commenticon} width={inroster ? '20px' : '25px'} color={commenticoncolor} />
 		{/if}
 	</div>
 	<div class="state {signup.state}">

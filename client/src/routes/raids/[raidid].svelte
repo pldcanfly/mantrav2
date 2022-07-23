@@ -60,6 +60,8 @@
 						<SignupCharacter {signup} />
 					</Pickable>
 				{/key}
+			{:else}
+				Keine Anmeldungen mehr vorhanden
 			{/each}
 		</div>
 		<div class="legend">
@@ -192,7 +194,7 @@
 
 		.pos {
 			color: var(--c__green);
-			height: 40px;
+			height: 30px;
 			display: grid;
 			justify-content: center;
 			align-items: center;
