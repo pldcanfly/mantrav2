@@ -62,7 +62,7 @@ export async function get({ params }: { params: any }) {
 					comment: 'Dies ist ein Test.\nMit mehreren Zeilen!\n\n aber ohne <span>html</span>',
 					character: {
 						id: 2,
-						name: 'Bishop',
+						name: 'Bishop2',
 						clazz: 'priest',
 						specc: 'prshadow',
 						offspecc: 'pholy',
@@ -77,7 +77,7 @@ export async function get({ params }: { params: any }) {
 					comment: 'Dies ist ein Test.\nMit mehreren Zeilen!\n\n aber ohne <span>html</span>',
 					character: {
 						id: 2,
-						name: 'Bishop',
+						name: 'Bishop3',
 						clazz: 'priest',
 						specc: 'prshadow',
 						offspecc: 'pholy',
