@@ -1,6 +1,6 @@
 <script lang="ts">
 	import SignupCharacter from '$components/character/SignupCharacter.svelte';
-	import { mdiCheck, mdiHelp, mdiClose, mdiPencil } from '@mdi/js';
+	import { mdiCheck, mdiHelp, mdiClose, mdiPencil, mdiSignatureImage } from '@mdi/js';
 	import { format } from 'date-fns';
 	import de from 'date-fns/locale/de/index.js';
 
@@ -55,7 +55,7 @@
 		<!-- <Dropable onDrop={(val) => console.log('dropped', val)}> -->
 		<div class="unpositioned">
 			{#each unpositioned as signup}
-				{#key JSON.stringify(signup)}
+				{#key signup.character.id}
 					<Pickable data={JSON.stringify(signup)}>
 						<SignupCharacter {signup} />
 					</Pickable>
@@ -73,7 +73,7 @@
 	<div class="row">
 		<h2>Ersatzbank</h2>
 		{#each benched as signup}
-			{#key JSON.stringify(signup)}
+			{#key signup.character.id}
 				<Pickable data={JSON.stringify(signup)}>
 					<SignupCharacter {signup} />
 				</Pickable>
@@ -96,17 +96,18 @@
 					{#each Array(size) as _, pos}
 						{@const relativepos = group * size + pos}
 						{@const signup = roster.find((signup) => signup.position == relativepos)}
-						{#key JSON.stringify(signup)}
-							<Dropable onDrop={handleDrop(relativepos)}>
-								{#if signup}
+
+						<Dropable onDrop={handleDrop(relativepos)}>
+							{#if signup}
+								{#key signup.character.id}
 									<Pickable data={JSON.stringify(signup)}>
 										<SignupCharacter {signup} />
 									</Pickable>
-								{:else}
-									<div class="pos dropable">Frei</div>
-								{/if}
-							</Dropable>
-						{/key}
+								{/key}
+							{:else}
+								<div class="pos dropable">Frei</div>
+							{/if}
+						</Dropable>
 					{/each}
 				</div>
 			{/each}

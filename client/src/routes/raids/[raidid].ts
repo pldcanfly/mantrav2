@@ -61,7 +61,7 @@ export async function get({ params }: { params: any }) {
 					actions: false,
 					comment: 'Dies ist ein Test.\nMit mehreren Zeilen!\n\n aber ohne <span>html</span>',
 					character: {
-						id: 2,
+						id: 3,
 						name: 'Bishop2',
 						clazz: 'priest',
 						specc: 'prshadow',
@@ -76,7 +76,7 @@ export async function get({ params }: { params: any }) {
 					actions: false,
 					comment: 'Dies ist ein Test.\nMit mehreren Zeilen!\n\n aber ohne <span>html</span>',
 					character: {
-						id: 2,
+						id: 4,
 						name: 'Bishop3',
 						clazz: 'priest',
 						specc: 'prshadow',
@@ -91,7 +91,7 @@ export async function get({ params }: { params: any }) {
 					actions: true,
 
 					character: {
-						id: 3,
+						id: 5,
 						name: 'Kessedy',
 						clazz: 'deathknight',
 						specc: 'dkblood',
@@ -105,7 +105,7 @@ export async function get({ params }: { params: any }) {
 					position: -2,
 					actions: false,
 					character: {
-						id: 1,
+						id: 6,
 						name: 'Boomkin',
 						clazz: 'druid',
 						specc: 'dbalance',
