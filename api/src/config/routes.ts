@@ -2,19 +2,24 @@
 
 import { View } from '../..';
 
-import { FilesView } from '../views/system/files.js';
+import { FilesView } from '../views/system/files';
+import { TestView } from '../views/test';
 
-export type RouteParams = {
+export interface RouteParams {
   [propName: string]: any;
-};
+}
 
-export type RouteNode = {
+export interface RouteNode {
   path: string;
   view: View;
   params?: RouteParams;
-};
+}
 
 export const routes: Array<RouteNode> = [
+  {
+    path: 'test',
+    view: TestView,
+  },
   {
     path: 'files',
     view: FilesView,

@@ -2,15 +2,15 @@
 
 import { Flowspace } from '../..';
 import http from 'http';
-import { User } from '../models/system/user.js';
-import { Token } from '../models/system/token.js';
-import { logger } from '../appspace.js';
-import { ACL } from '../models/system/acl.js';
+import { User } from '../models/system/user';
+import { Token } from '../models/system/token';
+import { logger } from '../appspace';
+import { ACL } from '../models/system/acl';
 
-export type LoginRequestBody = {
+export interface LoginRequestBody {
   username: string;
   password: string;
-};
+}
 
 const login = async function (res: http.ServerResponse, flowspace: Flowspace) {
   if (flowspace.body) {

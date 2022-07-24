@@ -1,4 +1,4 @@
-import { PostgreSQL_DB } from '../../../classes/dbs/postgresql_db.js';
+import { PostgreSQL_DB } from '../../../classes/dbs/postgresql_db';
 
 describe('classes', () => {
   describe('PostgreSQL_DB', () => {

@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ES2020",
+    "lib": ["es2021"],
+    "module": "commonjs",
+    "target": "es2015",
+    "importHelpers": true,
     "outDir": "./build",
     "rootDir": "./src",
+    "checkJs": true,
     "strict": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
   },
   "include": ["src/**/*"]
 }

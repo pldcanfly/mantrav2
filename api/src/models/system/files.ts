@@ -1,8 +1,8 @@
 'use strict';
 import { randomFillSync } from 'crypto';
-import { appspace, logger } from '../../appspace.js';
+import { appspace, logger } from '../../appspace';
 
-type FileRecord = {
+interface FileRecord {
   id: number;
   name: string;
   type: string;
@@ -11,7 +11,7 @@ type FileRecord = {
   ip: string;
   deletekey: number;
   createdat: Date;
-};
+}
 
 class FilesModel {
   async insertFile(filename: string, path: string, type: string, size: string, ip: string) {

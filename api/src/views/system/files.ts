@@ -1,13 +1,13 @@
 'use strict';
 
 import { Flowspace } from '../../..';
-import { logger } from '../../appspace.js';
+import { logger } from '../../appspace';
 
 import http from 'http';
 import path from 'path';
 import fs from 'fs';
 
-import { Files } from '../../models/system/files.js';
+import { Files } from '../../models/system/files';
 import { randomFillSync } from 'crypto';
 
 export const name = 'FilesView';
@@ -63,15 +63,6 @@ export const put = async function (req: http.IncomingMessage, res: http.ServerRe
           res.statusCode = 500;
           return;
         });
-      // // fs.copyFile, function (err) {
-      // //   if (err) {
-      // //     logger.error(err);
-      // //   } else {
-      // //     logger.info('File uploaded and moved!');
-      // //   }
-      // // });
-
-      // return file;
     }
   }
   res.statusCode = 500;

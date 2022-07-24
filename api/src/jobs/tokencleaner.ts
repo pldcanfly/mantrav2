@@ -1,7 +1,7 @@
 'use strict';
 
-import { Job } from '../classes/scheduler/job.js';
-import { PostgreSQL_DB } from '../classes/dbs/postgresql_db.js';
+import { Job } from '../classes/scheduler/job';
+import { PostgreSQL_DB } from '../classes/dbs/postgresql_db';
 
 const db = new PostgreSQL_DB();
 

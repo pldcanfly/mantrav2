@@ -1,7 +1,7 @@
 // import { assert } from 'console';
-// import { flow } from '../../flower/static.js';
+// import { flow } from '../../flower/static';
 // import http from 'http';
-// import { Flowspace } from '../../../index.js';
+// import { Flowspace } from '../../../index';
 
 // describe('flowers', () => {
 //   describe('static', () => {

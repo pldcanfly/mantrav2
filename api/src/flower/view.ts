@@ -2,7 +2,7 @@
 
 import { Flowspace } from '../..';
 import http from 'http';
-import { logger } from '../appspace.js';
+import { logger } from '../appspace';
 import jstoxml from 'jstoxml';
 
 // EXPORTS

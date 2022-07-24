@@ -1,18 +1,19 @@
 'use strict';
 
-import { session } from '../../config/config.js';
+import { session } from '../../config/config';
 import crypto from 'crypto';
-import { appspace, logger } from '../../appspace.js';
-import { UserObject } from '../../../index.js';
+import { appspace, logger } from '../../appspace';
+import { UserData } from '../../..';
 
-interface UserData {}
-
-export interface UserRecord extends UserObject {
+export interface UserRecord {
+  id: number;
+  username: string;
+  password: string;
   data: UserData;
 }
 
 class UserModel {
-  getAllUsers() {
+  async getAllUsers() {
     return appspace.db
       .query('user')
       .execute()
@@ -28,7 +29,7 @@ class UserModel {
       .then((res: any) => res);
   }
 
-  getUserById(id: number) {
+  async getUserById(id: number) {
     return appspace.db
       .query('user')
       .where('id', '=', id)
@@ -36,7 +37,7 @@ class UserModel {
       .then((result: Array<UserRecord>) => result[0]);
   }
 
-  getUserByUsername(search: string) {
+  async getUserByUsername(search: string) {
     return appspace.db
       .query('user')
       .where('username', '=', search, 'OR')
@@ -72,7 +73,7 @@ class UserModel {
     return `${salt}${session.salt}${crypto.createHash('sha256').update(password).digest('base64')}`;
   }
 
-  createUser(name: string, password: string) {
+  async createUser(name: string, password: string) {
     return appspace.db
       .query('user')
       .insert()
@@ -82,7 +83,7 @@ class UserModel {
       .then((result: Array<UserRecord>) => result[0]);
   }
 
-  updateUser(id: number, user: any) {
+  async updateUser(id: number, user: any) {
     const query = appspace.db.query('user').update();
 
     if (user.username) query.set('username', user.username.trim());
@@ -94,7 +95,7 @@ class UserModel {
       .then((result: Array<UserRecord>) => result[0]);
   }
 
-  setPassword(id: number, password: string) {
+  async setPassword(id: number, password: string) {
     return appspace.db
       .query('user')
       .update()

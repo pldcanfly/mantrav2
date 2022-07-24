@@ -1,8 +1,8 @@
 'use strict';
 
 import MemoryCache from 'memory-cache';
-import { useCache } from '../config/config.js';
-import { logger } from '../appspace.js';
+import { useCache } from '../config/config';
+import { logger } from '../appspace';
 
 type CacheKey = string | number;
 

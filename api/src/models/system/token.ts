@@ -1,20 +1,21 @@
-import { session } from '../../config/config.js';
+import { session } from '../../config/config';
 import jwt from 'jsonwebtoken';
-import { UserObject } from '../../..';
-import { User, UserRecord } from './user.js';
-import { appspace, logger } from '../../appspace.js';
-import { ACL } from './acl.js';
+import { User, UserRecord } from './user';
+import { appspace, logger } from '../../appspace';
+import { ACL } from './acl';
 
-type AccessPayload = {
+interface AccessPayload {
   id: number;
   roles: Array<string>;
   perms: Array<string>;
   username: string;
-};
+}
 
-type RefreshPayload = {
+interface RefreshPayload {
   id: number;
-};
+}
+
+interface TokenRecord {}
 
 class TokenModel {
   async getTokenPairForIssuer(token: string) {
@@ -22,7 +23,7 @@ class TokenModel {
       .query('activetokens')
       .where('issuer', '=', token)
       .execute()
-      .then((result: any) => result[0])
+      .then((res: Array<TokenRecord>) => res[0])
       .catch((err: Error) => logger.error(err));
   }
 
@@ -31,7 +32,7 @@ class TokenModel {
       .query('activetokens')
       .where('createdat', '=', new Date().toISOString())
       .execute()
-      .then((res) => console.log(res));
+      .then((res: Array<TokenRecord>) => console.log(res));
   }
 
   async tokenExists(token: string) {
@@ -40,7 +41,7 @@ class TokenModel {
       .where('refreshtoken', '=', token, 'OR')
       .where('accesstoken', '=', token, 'OR')
       .execute()
-      .then((res: any) => res.length > 0)
+      .then((res: Array<TokenRecord>) => res.length > 0)
       .catch(() => false);
   }
 
@@ -49,7 +50,7 @@ class TokenModel {
       .query('activetokens')
       .where('issuer', '=', issuer)
       .execute()
-      .then((res: any) => res.length > 0)
+      .then((res: Array<TokenRecord>) => res.length > 0)
       .catch(() => false);
   }
 
@@ -86,7 +87,7 @@ class TokenModel {
       .set('accesstoken', tokenpair.accessToken)
       .set('username', user.username)
       .execute()
-      .then(() => tokenpair)
+      .then((res: Array<TokenRecord>) => tokenpair)
       .catch(() => false);
   }
 
@@ -109,7 +110,7 @@ class TokenModel {
           .set('issuer', refreshtoken)
           .set('username', user.username)
           .execute()
-          .then(() => tokenpair)
+          .then((res: Array<TokenRecord>) => tokenpair)
           .catch(() => false);
       } catch (e) {
         logger.error('Token Error:', e);

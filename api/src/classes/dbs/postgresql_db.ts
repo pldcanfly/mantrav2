@@ -1,18 +1,16 @@
 'use strict';
 
-import { AggregateObject, DB, DistinctObject, FieldObject, JoinObject, WhereObject } from './db.js';
-import pg, { QueryResult } from 'pg';
+import { AggregateObject, DB, DistinctObject, FieldObject, JoinObject, WhereObject } from './db';
+import { Pool, PoolConfig, QueryResult } from 'pg';
 
 import pgformat from 'pg-format';
 import { timeStamp } from 'console';
 
-const { Pool } = pg;
-
 export class PostgreSQL_DB extends DB {
   pool;
-  constructor() {
+  constructor(pooloptions?: PoolConfig) {
     super();
-    this.pool = new Pool();
+    this.pool = new Pool(pooloptions);
   }
 
   close() {

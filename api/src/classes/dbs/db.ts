@@ -1,57 +1,57 @@
 'use strict';
 
-export type JoinObject = {
+export interface JoinObject {
   modifier: string;
   collection: string;
   field1: string;
   field2: string;
   table1?: string;
   table2?: string;
-};
+}
 
-export type WhereObject = {
+export interface WhereObject {
   type?: string;
   field?: string;
   symbol?: string;
   value?: string | number | Array<string> | Array<number> | object | boolean;
   operator?: string;
   table?: string;
-};
+}
 
-export type SetObject = {
+export interface SetObject {
   field: string;
   value: any;
-};
+}
 
-export type OrderObject = {
+export interface OrderObject {
   field: string;
   order: string;
   table?: string;
-};
+}
 
-export type AggregateObject = {
+export interface AggregateObject {
   func: AggregateFunction;
   field: string;
   table?: string;
-};
+}
 
-export type DistinctObject = {
+export interface DistinctObject {
   field: string;
   table?: string;
-};
+}
 
-export type FieldObject = {
+export interface FieldObject {
   field: string;
   table?: string;
-};
+}
 
-export type LimitObject = {
+export interface LimitObject {
   limit: number;
   offset: number;
   fuzzy: boolean;
   fuzzyfield: string;
   fuzzytable?: string;
-};
+}
 
 export type AggregateFunction = 'MAX' | 'MIN' | 'COUNT' | 'SUM' | 'AVG';
 

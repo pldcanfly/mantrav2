@@ -3,18 +3,18 @@
 import { Flowspace } from '../..';
 import http from 'http';
 
-import busboy, { BusboyHeaders } from 'busboy';
+import busboy from 'busboy';
 import fs from 'fs';
 import path from 'path';
 import { randomFillSync } from 'crypto';
 import os from 'os';
 
-import { logger } from '../appspace.js';
+import { logger } from '../appspace';
 import internal from 'stream';
 
-type BusBoyFile = internal.Readable & {
+interface BusBoyFile extends internal.Readable {
   truncated?: boolean;
-};
+}
 
 // EXPORTS
 export const name = 'BodyData';
@@ -63,7 +63,7 @@ const handleMultipart = (req: http.IncomingMessage, res: http.ServerResponse, fl
   }
 
   const bb = busboy({
-    headers: req.headers as BusboyHeaders,
+    headers: req.headers,
     highWaterMark: 2 * 1024 * 1024, // Set 2MiB buffer
     limits,
   });

@@ -2,8 +2,8 @@
 
 import { Flowspace } from '../../..';
 import http from 'http';
-import { User } from '../../models/system/user.js';
-import { ACL } from '../../models/system/acl.js';
+import { User } from '../../models/system/user';
+import { ACL } from '../../models/system/acl';
 import { acl } from '../../appspace';
 
 export const name = 'UsersView';

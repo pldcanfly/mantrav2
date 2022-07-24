@@ -1,22 +1,20 @@
 'use strict';
 
-console.log('\n\npowered by:\n  ___');
-console.log(' |  _|   _____ _____ ____           _____ _____ _____');
-console.log(' | |    |   __|     |    \\   ____  |  ___|     |   __|');
-console.log(' | |    |__   | | | |  |  | |____| | |___| | | |__   |');
-console.log(' | |_   |_____|_|_|_|____/         |_____|_|_|_|_____|');
-console.log(' |___|    Tina was here\n\n');
+import { appspace, logger } from './appspace';
 
-console.log('Starting up SMD-CMS...');
-console.log('Environment:', process.env.NODE_ENV);
-logger.info('Starting up SMD-CMS...', { env: process.env.NODE_ENV });
-console.log('Logs are saved to /logs');
+logger.info('  ___   powered by:');
+logger.info(' |  _|   _____ _____ ____           _____ _____ _____');
+logger.info(' | |    |   __|     |    \\   ____  |  ___|     |   __|');
+logger.info(' | |    |__   | | | |  |  | |____| | |___| | | |__   |');
+logger.info(' | |_   |_____|_|_|_|____/         |_____|_|_|_|_____|');
+logger.info(' |___|    Tina was here\n');
 
-import { appspace, logger } from './appspace.js';
+logger.info('Starting up SMD-CMS...');
+logger.info(`Environment: ${process.env.NODE_ENV}`);
 
 /* Scheduler */
-import { jobs } from './config/jobs.js';
-import { JobScheduler } from './classes/scheduler/scheduler.js';
+import { jobs } from './config/jobs';
+import { JobScheduler } from './classes/scheduler/scheduler';
 
 if (jobs.length > 0) {
   logger.info('Job Scheduler: Found jobs, starting Scheduler');
@@ -24,12 +22,12 @@ if (jobs.length > 0) {
 }
 
 /* Flow */
-import Flow from './classes/flow.js';
-import Headers from './flower/headers.js';
-import View from './flower/view.js';
-import Router from './flower/router.js';
-import BodyData from './flower/bodydata.js';
-import Auth from './flower/auth.js';
+import Flow from './classes/flow';
+import Headers from './flower/headers';
+import View from './flower/view';
+import Router from './flower/router';
+import BodyData from './flower/bodydata';
+import Auth from './flower/auth';
 
 const flow = new Flow();
 

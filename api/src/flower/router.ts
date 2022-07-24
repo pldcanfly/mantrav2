@@ -2,21 +2,21 @@
 
 import { Flowspace } from '../..';
 import http from 'http';
-import { routes, RouteNode } from '../config/routes.js';
-import { appspace, logger } from '../appspace.js';
+import { routes, RouteNode } from '../config/routes';
+import { appspace, logger } from '../appspace';
 import fs from 'fs';
 import path from 'path';
-import { Media } from '../models/system/media.js';
+import { Media } from '../models/system/media';
 
-type ParsedRouteNode = RouteNode & {
+interface ParsedRouteNode extends RouteNode {
   parsed: Array<ParsedRoute>;
-};
+}
 
-type ParsedRoute = {
+interface ParsedRoute {
   part: string;
   param: boolean;
   methods?: Array<'delete' | 'get' | 'put' | 'post' | 'patch'>;
-};
+}
 
 const parsedroutes: Array<ParsedRouteNode> = routes.map((route: RouteNode) => {
   let routeparts = route.path.match(/[0-9a-zA-Z-_]+|:([a-z]*):/gm);

@@ -1,8 +1,7 @@
 import { Appspace } from '..';
-import winston from 'winston';
-const { createLogger, format, transports } = winston;
-import { PostgreSQL_DB } from './classes/dbs/postgresql_db.js';
-import { ACL } from './models/system/acl.js';
+import { createLogger, format, transports } from 'winston';
+import { PostgreSQL_DB } from './classes/dbs/postgresql_db';
+import { ACL } from './models/system/acl';
 
 const loggeroptions = {
   level: 'info',
@@ -13,7 +12,7 @@ const loggeroptions = {
     }),
 
     format.printf((info) => {
-      return `[${info.timestamp}] ${info.level}: ${info.message} ${info.durationMs ? '(' + info.durationMs + 'ms)' : ''}`;
+      return `[${info.timestamp}][${info.level}]: ${info.message} ${info.durationMs ? '(' + info.durationMs + 'ms)' : ''}`;
     })
   ),
   //transports: [new transports.File({ filename: 'logs/error.log', level: 'error' }), new transports.File({ filename: 'logs/combined.log' })],
@@ -26,6 +25,7 @@ if (process.env.NODE_ENV == 'test') {
 
 export const logger = createLogger(loggeroptions);
 
+//export const db = new PostgreSQL_DB({ connectionString: process.env.DATABASE_URL });
 export const db = new PostgreSQL_DB();
 
 export const acl = ACL;

@@ -103,23 +103,6 @@ interface RequestParams {
   [propName: string]: any;
 }
 
-interface UserObject {
-  id: number;
-  username: string;
-  password: string;
-}
-
-type MediaType = 'video' | 'image' | 'unknown';
-
-type MediaModelEntry = {
-  id: number;
-  name: string;
-  mediatype: MediaType;
-  meta: object;
-  author: string;
-  createdat: Date;
-  mimetype: string;
-  category: string;
-};
+interface UserData {}
 
 type FileUploads = [{ filename: string; size: number; file: any }];

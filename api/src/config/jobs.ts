@@ -1,18 +1,6 @@
 'use strict';
 
-interface JobOptions {
-  name?: string | undefined;
-  path?: string | (() => void) | undefined;
-  timeout?: number | string | boolean | undefined;
-  interval?: number | string | undefined;
-  date?: Date | undefined;
-  cron?: string | undefined;
-  hasSeconds?: boolean | undefined;
-  cronValidate?: object | undefined;
-  closeWorkerAfterMs?: number | undefined;
-  worker?: object | undefined;
-  outputWorkerMetadata?: boolean | undefined;
-}
+import { JobOptions } from 'bree/types';
 
 export const jobs: Array<JobOptions> = [];
 

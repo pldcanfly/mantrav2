@@ -1,7 +1,19 @@
 'use strict';
 
-import { MediaModelEntry, MediaType } from '../../../index.js';
-import { appspace, logger } from '../../appspace.js';
+import { appspace, logger } from '../../appspace';
+
+interface MediaRecord {
+  id: number;
+  name: string;
+  mediatype: MediaType;
+  meta: object;
+  author: string;
+  createdat: Date;
+  mimetype: string;
+  category: string;
+}
+
+type MediaType = 'video' | 'image' | 'unknown';
 
 class MediaModel {
   async saveMedia(name: string, type: MediaType, author: string, mimetype: string, meta: {}, category?: string) {
@@ -15,7 +27,7 @@ class MediaModel {
       .set('mimetype', mimetype)
       .set('category', category || 'all')
       .execute()
-      .then((res: Array<MediaModelEntry>) => res[0]);
+      .then((res: Array<MediaRecord>) => res[0]);
   }
 
   async updateMedia(id: number, name: string) {
@@ -25,7 +37,7 @@ class MediaModel {
       .set('name', name)
       .where('id', '=', id)
       .execute()
-      .then((res: Array<MediaModelEntry>) => res[0]);
+      .then((res: Array<MediaRecord>) => res[0]);
   }
 
   async getAllMedia() {
@@ -33,7 +45,7 @@ class MediaModel {
       .query('media')
       .order('createdat', 'DESC')
       .execute()
-      .then((res: Array<MediaModelEntry>) => res);
+      .then((res: Array<MediaRecord>) => res);
   }
 
   async getMedia(id: number) {
@@ -41,7 +53,7 @@ class MediaModel {
       .query('media')
       .where('id', '=', id)
       .execute()
-      .then((res: Array<MediaModelEntry>) => res[0]);
+      .then((res: Array<MediaRecord>) => res[0]);
   }
 
   async removeMedia(id: number) {

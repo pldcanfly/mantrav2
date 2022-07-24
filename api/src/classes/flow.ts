@@ -3,7 +3,7 @@
 import http from 'http';
 import { Flower, Flowspace } from '../..';
 
-import { logger } from '../appspace.js';
+import { logger } from '../appspace';
 
 class Flow {
   private server: http.Server;
