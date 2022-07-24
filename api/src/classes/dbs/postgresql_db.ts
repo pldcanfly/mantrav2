@@ -4,8 +4,6 @@ import { AggregateObject, DB, DistinctObject, FieldObject, JoinObject, WhereObje
 import { Pool, PoolConfig, QueryResult } from 'pg';
 
 import pgformat from 'pg-format';
-import { timeStamp } from 'console';
-
 export class PostgreSQL_DB extends DB {
   pool;
   constructor(pooloptions?: PoolConfig) {
@@ -20,7 +18,7 @@ export class PostgreSQL_DB extends DB {
   execute() {
     let query: string = '';
     let values: Array<any> = [];
-    let execute = false;
+
     var schema = process.env.PGSCHEMA || '';
 
     var tablename: string;
@@ -33,7 +31,6 @@ export class PostgreSQL_DB extends DB {
 
     switch (this.operation) {
       case 'SELECT':
-        execute = true;
         query = 'SELECT ';
 
         if (this._distinct.length > 0) {
@@ -90,15 +87,12 @@ export class PostgreSQL_DB extends DB {
         query = `${query} FROM ${tablename}`;
         break;
       case 'INSERT':
-        execute = true;
         query = `INSERT INTO ${tablename}`;
         break;
       case 'UPDATE':
-        execute = true;
         query = `UPDATE ${tablename}`;
         break;
       case 'DELETE':
-        execute = true;
         query = `DELETE FROM ${tablename}`;
         break;
     }
@@ -245,14 +239,11 @@ export class PostgreSQL_DB extends DB {
       }
     }
 
-    //console.log('Query:', query);
-    //console.log(' └─ Values:', values);
     const safequery = pgformat.withArray(query, values);
     if (this._debug) {
       console.log(` └─ Safequery: ${safequery}`);
     }
 
-    // if (execute) {
     return this.pool
       .query(safequery)
       .then((result: QueryResult) => result.rows)
@@ -260,6 +251,5 @@ export class PostgreSQL_DB extends DB {
         if (this._errors) console.log(`PGSQL-ERROR: ${err}`);
         return Promise.reject(err);
       });
-    // }
   }
 }
