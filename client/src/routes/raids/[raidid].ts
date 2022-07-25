@@ -16,7 +16,7 @@ export interface iSignup {
 	actions: boolean;
 }
 
-export async function get({ params }: { params: any }) {
+export async function GET({ params }: { params: any }) {
 	const raids: Array<iRaid> = [
 		{
 			id: 1,
@@ -126,6 +126,8 @@ export async function get({ params }: { params: any }) {
 			signups: []
 		}
 	];
+
+	//socket.connect();
 
 	const raid = raids.find((item) => item.id === parseInt(params.raidid));
 	return {

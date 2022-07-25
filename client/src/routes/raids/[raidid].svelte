@@ -2,7 +2,11 @@
 	import SignupCharacter from '$components/character/SignupCharacter.svelte';
 	import { mdiCheck, mdiHelp, mdiClose, mdiPencil, mdiSignatureImage } from '@mdi/js';
 	import { format } from 'date-fns';
-	import de from 'date-fns/locale/de/index.js';
+	import de from 'date-fns/locale/de/index';
+
+	import { io } from 'socket.io-client';
+
+	const socket = io('ws://localhost:4000/raid', { forceNew: true });
 
 	import Dropable from '$components/Dropable.svelte';
 	import Icon from '$components/Icon.svelte';
@@ -11,6 +15,10 @@
 	import { iconTable } from '$store/tables';
 
 	import type { iRaid, iSignup } from './[raidid]';
+
+	import { flip } from 'svelte/animate';
+	import { crossfade } from 'svelte/transition';
+	const [send, receive] = crossfade({ duration: 200 });
 
 	export let raid: iRaid;
 	$: unpositioned = raid.signups.filter(
@@ -32,10 +40,20 @@
 					console.log('Drop!!', signup, position);
 					signup.position = position;
 					raid = raid;
+					updatestate();
 				}
 			}
 		};
 	};
+
+	const updatestate = () => {
+		socket.emit('updatestate', JSON.stringify(raid));
+	};
+
+	socket.on('refreshstate', (message: any) => {
+		console.log('refreshstate triggered');
+		raid = JSON.parse(message);
+	});
 </script>
 
 <h1>Raid {raid.name}</h1>
@@ -51,17 +69,20 @@
 <div class="raidgrid">
 	<div class="row">
 		<h2>Anmeldungen</h2>
-
-		<!-- <Dropable onDrop={(val) => console.log('dropped', val)}> -->
 		<div class="unpositioned">
-			{#each unpositioned as signup}
-				{#key signup.character.id}
+			{#each unpositioned as signup (signup.character.id)}
+				<div
+					class="animcontainer"
+					animate:flip={{ duration: 200 }}
+					in:receive={{ key: signup.character.id }}
+					out:send={{ key: signup.character.id }}
+				>
 					<Pickable data={JSON.stringify(signup)}>
 						<SignupCharacter {signup} />
 					</Pickable>
-				{/key}
+				</div>
 			{:else}
-				Keine Anmeldungen mehr vorhanden
+				<div class="empty" style:grid-column="1 / span 2">Keine Anmeldungen mehr vorhanden</div>
 			{/each}
 		</div>
 		<div class="legend">
@@ -69,19 +90,22 @@
 			<div><Icon path={mdiCheck} width={'30px'} /> Angenommen</div>
 			<div><Icon path={mdiClose} width={'30px'} /> Abgelehnt</div>
 		</div>
-
-		<!-- </Dropable> -->
 	</div>
 	<div class="row">
 		<h2>Ersatzbank</h2>
-		{#each benched as signup}
-			{#key signup.character.id}
+		{#each benched as signup (signup.character.id)}
+			<div
+				class="animcontainer"
+				animate:flip={{ duration: 200 }}
+				in:receive={{ key: signup.character.id }}
+				out:send={{ key: signup.character.id }}
+			>
 				<Pickable data={JSON.stringify(signup)}>
 					<SignupCharacter {signup} />
 				</Pickable>
-			{/key}
+			</div>
 		{:else}
-			Leere Ersatzbank
+			<div class="empty">Leere Ersatzbank</div>
 		{/each}
 	</div>
 	<div class="row"><h2>Raidbuffs - NYI</h2></div>
@@ -102,9 +126,15 @@
 						<Dropable onDrop={handleDrop(relativepos)}>
 							{#if signup}
 								{#key signup.character.id}
-									<Pickable data={JSON.stringify(signup)}>
-										<SignupCharacter {signup} />
-									</Pickable>
+									<div
+										class="animcontainer"
+										in:receive={{ key: signup.character.id }}
+										out:send={{ key: signup.character.id }}
+									>
+										<Pickable data={JSON.stringify(signup)}>
+											<SignupCharacter {signup} />
+										</Pickable>
+									</div>
 								{/key}
 							{:else}
 								<div class="pos dropable">Frei</div>
@@ -121,6 +151,15 @@
 	h2 {
 		text-align: center;
 	}
+
+	.empty {
+		text-align: center;
+	}
+
+	.animcontainer {
+		width: 100%;
+	}
+
 	.unpositioned {
 		display: grid;
 		grid-template-columns: 1fr;

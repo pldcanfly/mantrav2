@@ -1,18 +1,43 @@
 'use strict';
 
 import http from 'http';
+import socketio from 'socket.io';
 import { Flower, Flowspace } from '../..';
+import { rooms } from '../config/rooms';
 
 import { logger } from '../appspace';
 
 class Flow {
   private server: http.Server;
+  private wsserver: socketio.Server;
+
   private flowers: Array<{ name: string; flow: Function }> = [];
 
   constructor() {
     logger.info('Flow v2: Init');
     this.server = http.createServer(this.flowHandler());
+    this.wsserver = new socketio.Server(this.server, {
+      cors: { origin: '*' },
+    });
+    this.initWSS();
     return this;
+  }
+
+  initWSS() {
+    for (const room of rooms) {
+      logger.info(`Websocket: Adding room: ${room.name}`);
+      if (room.events) {
+        this.wsserver.of(room.name).on('connection', (socket) => {
+          socket.join(room.name);
+          socket.emit('joined', room.name);
+          for (const event of room.events) {
+            if (room.handler[event]) {
+              socket.on(event, (message) => room.handler[event]((event: string, data: any) => socket.to(room.name).emit(event, data), message));
+            }
+          }
+        });
+      }
+    }
   }
 
   listen() {

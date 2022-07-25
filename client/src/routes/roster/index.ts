@@ -5,7 +5,7 @@ export interface Roster {
 	heal: Array<iCharacter>;
 }
 
-export async function get() {
+export async function GET() {
 	const roster: Roster = {
 		melee: [
 			{

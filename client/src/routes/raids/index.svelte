@@ -16,7 +16,7 @@
 		subMonths,
 		addMonths
 	} from 'date-fns';
-	import de from 'date-fns/locale/de/index.js';
+	import de from 'date-fns/locale/de/index';
 	import type { iRaid } from './[raidid]';
 
 	export let raids: Array<iRaid>;

@@ -1,6 +1,6 @@
 'use strict';
 
-import { appspace, logger } from '../../appspace';
+import { appspace } from '../../appspace';
 
 interface RoleRecord {
   id: number;

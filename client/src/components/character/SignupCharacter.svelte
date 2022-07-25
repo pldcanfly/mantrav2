@@ -1,11 +1,8 @@
 <script lang="ts">
 	import type { iSignup } from 'src/routes/raids/[raidid]';
 	import { slide } from 'svelte/transition';
-
 	import { mdiCheck, mdiHelp, mdiClose, mdiCommentText, mdiCommentEdit } from '@mdi/js';
-
 	import SpeccIcon from '$components/Icons/SpeccIcon.svelte';
-
 	import { classTable } from '$store/tables';
 	import Icon from '$components/Icon.svelte';
 

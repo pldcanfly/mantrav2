@@ -14,8 +14,6 @@
 	const handleDrag = (e: MouseEvent) => {};
 </script>
 
-<!-- <svelte:window on:mousemove={handleDrag} /> -->
-
 <div
 	class="container"
 	class:pickedup
