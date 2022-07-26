@@ -1,20 +1,13 @@
 module.exports = {
   apps: [
     {
-      name: 'Clicktracking',
+      name: 'Mantra',
       script: 'app.js',
       env: {
-        NODE_ENV: 'production',
-        NODE_PORT: 4500,
-        NODE_PATH: '/',
-        PGHOST: 'localhost',
-        PGUSER: 'clicktracking',
-        PGDATABASE: 'postgres',
-        PGPASSWORD: 'NMpV9rgC5EW24SyX',
-        PGSCHEMA: 'clicktracking',
-        PGPORT: 5432,
-        JOB_ROOT: 'jobs',
-        FRONTEND_URL: 'https://clicktracking.smd-digital.at/',
+        DATABASE_URL: 'postgresql://mantra:pNK-5bSADKy05Z-yb3LcLg@free-tier13.aws-eu-central-1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full&options=--cluster%3Dmantra-2566',
+        NODE_ENV: 'local',
+        NODE_PORT: 4000,
+        PGSCHEMA: 'mantra',
       },
       error_file: 'logs/api-error.log',
       out_file: 'logs/api-out.log',
