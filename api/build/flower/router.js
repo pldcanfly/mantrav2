@@ -19,12 +19,6 @@ const parsedroutes = routes_1.routes.map((route) => {
 // EXPORTS
 exports.name = 'Router v2';
 const flow = function (req, res, flowspace, next) {
-    // Skip auth-routes
-    // if (req.url?.startsWith('/auth')) {
-    //   logger.info('Route v2: Auth Route skipping');
-    //   next();
-    //   return;
-    // }
     var _a;
     // Quickly handle static routes
     for (let i = 0; i < parsedroutes.length; i++) {

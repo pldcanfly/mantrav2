@@ -34,7 +34,9 @@ class Flow {
           socket.emit('joined', room.name);
           for (const event of room.events) {
             if (room.handler[event]) {
-              socket.on(event, (message) => room.handler[event]((event: string, data: any) => socket.to(room.name).emit(event, data), message));
+              socket.on(event, (message) =>
+                room.handler[event]((event: string, data: any) => socket.to(room.name).emit(event, data), message)
+              );
             }
           }
         });

@@ -100,16 +100,13 @@ export const flow = async function (req: http.IncomingMessage, res: http.ServerR
       case '/auth/login':
         logger.info('Login detected');
         await login(res, flowspace);
-
         break;
       case '/auth/logout':
         await logout(req, res, flowspace);
-
         break;
       case '/auth/refresh':
         logger.info('Refresh detected');
         await refresh(req, res, flowspace);
-
         break;
     }
     flowspace.skip.push('Router v2');

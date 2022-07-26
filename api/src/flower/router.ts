@@ -35,13 +35,6 @@ const parsedroutes: Array<ParsedRouteNode> = routes.map((route: RouteNode) => {
 // EXPORTS
 export const name = 'Router v2';
 export const flow = function (req: http.IncomingMessage, res: http.ServerResponse, flowspace: Flowspace, next: Function) {
-  // Skip auth-routes
-  // if (req.url?.startsWith('/auth')) {
-  //   logger.info('Route v2: Auth Route skipping');
-  //   next();
-  //   return;
-  // }
-
   // Quickly handle static routes
   for (let i = 0; i < parsedroutes.length; i++) {
     if (parsedroutes[i].path == req.url) {
