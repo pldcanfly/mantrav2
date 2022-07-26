@@ -6,7 +6,7 @@
 
 	import { io } from 'socket.io-client';
 
-	const socket = io('ws://localhost:4000/raid', { forceNew: true });
+	const socket = io(`${import.meta.env.VITE_WS_URL}/raid`, { forceNew: true });
 
 	import Dropable from '$components/Dropable.svelte';
 	import Icon from '$components/Icon.svelte';

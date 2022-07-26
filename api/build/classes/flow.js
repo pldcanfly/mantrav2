@@ -1,7 +1,7 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
-const http_1 = tslib_1.__importDefault(require("http"));
+const node_http_1 = tslib_1.__importDefault(require("node:http"));
 const socket_io_1 = tslib_1.__importDefault(require("socket.io"));
 const rooms_1 = require("../config/rooms");
 const appspace_1 = require("../appspace");
@@ -9,7 +9,7 @@ class Flow {
     constructor() {
         this.flowers = [];
         appspace_1.logger.info('Flow v2: Init');
-        this.server = http_1.default.createServer(this.flowHandler());
+        this.server = node_http_1.default.createServer(this.flowHandler());
         this.wsserver = new socket_io_1.default.Server(this.server, {
             cors: { origin: '*' },
         });
@@ -33,9 +33,13 @@ class Flow {
         }
     }
     listen() {
-        const port = process.env.NODE_PORT;
-        this.server.listen(port);
-        appspace_1.logger.info(`Flow v2: Listening on Port ${port}`);
+        if (process.env.NODE_PORT) {
+            this.server.listen(process.env.NODE_PORT);
+        }
+        else {
+            this.server.listen();
+        }
+        appspace_1.logger.info(`Flow v2: Listening on Port ${process.env.NODE_PORT ? process.env.NODE_PORT : 'Default Port'}`);
     }
     use(flower) {
         if (flower.flow) {

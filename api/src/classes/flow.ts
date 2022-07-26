@@ -1,6 +1,6 @@
 'use strict';
 
-import http from 'http';
+import http from 'node:http';
 import socketio from 'socket.io';
 import { Flower, Flowspace } from '../..';
 import { rooms } from '../config/rooms';
@@ -15,7 +15,9 @@ class Flow {
 
   constructor() {
     logger.info('Flow v2: Init');
+
     this.server = http.createServer(this.flowHandler());
+
     this.wsserver = new socketio.Server(this.server, {
       cors: { origin: '*' },
     });
@@ -41,9 +43,12 @@ class Flow {
   }
 
   listen() {
-    const port = process.env.NODE_PORT;
-    this.server.listen(port);
-    logger.info(`Flow v2: Listening on Port ${port}`);
+    if (process.env.NODE_PORT) {
+      this.server.listen(process.env.NODE_PORT);
+    } else {
+      this.server.listen();
+    }
+    logger.info(`Flow v2: Listening on Port ${process.env.NODE_PORT ? process.env.NODE_PORT : 'Default Port'}`);
   }
 
   use(flower: Flower) {
