@@ -28,13 +28,15 @@ import View from './flower/view';
 import Router from './flower/router';
 import BodyData from './flower/bodydata';
 import Auth from './flower/auth';
+import Static from './flower/static';
 
 const flow = new Flow();
 
 flow.use(Headers);
-flow.use(Router);
+flow.use(Static);
 flow.use(BodyData);
 flow.use(Auth);
+flow.use(Router);
 flow.use(View);
 flow.listen();
 logger.info('Listening...');

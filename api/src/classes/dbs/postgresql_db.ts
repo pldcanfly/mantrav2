@@ -1,6 +1,6 @@
 'use strict';
 
-import { AggregateObject, DB, DistinctObject, FieldObject, JoinObject, WhereObject } from './db';
+import { AggregateObject, DB, DistinctObject, FieldObject, JoinObject, WhereObject } from '../db';
 import { Pool, PoolConfig, QueryResult } from 'pg';
 
 import pgformat from 'pg-format';

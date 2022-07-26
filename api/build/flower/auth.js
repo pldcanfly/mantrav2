@@ -113,6 +113,7 @@ const flow = function (req, res, flowspace, next) {
                     yield refresh(req, res, flowspace);
                     break;
             }
+            flowspace.skip.push('Router v2');
         }
         flowspace.session = yield createSession(req, res, flowspace);
         next();

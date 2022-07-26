@@ -1,4 +1,4 @@
-import { DB } from '../../../classes/dbs/db';
+import { DB } from '../../../classes/db';
 
 describe('classes', () => {
   describe('DB', () => {

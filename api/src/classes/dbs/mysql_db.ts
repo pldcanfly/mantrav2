@@ -3,7 +3,7 @@
 import mysql, { MysqlError } from 'mysql';
 import { MysqlDBConfig } from '../../..';
 import { logger } from '../../appspace';
-import { DB, JoinObject, WhereObject } from './db';
+import { DB, JoinObject, WhereObject } from '../db';
 
 export class MySQL_DB extends DB {
   private connection: any;

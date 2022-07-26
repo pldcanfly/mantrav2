@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const db_1 = require("../../../classes/dbs/db");
+const db_1 = require("../../../classes/db");
 describe('classes', () => {
     describe('DB', () => {
         var q;

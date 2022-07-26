@@ -10,6 +10,19 @@ export const flow = async function (req: http.IncomingMessage, res: http.ServerR
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   res.setHeader('Access-Control-Allow-Headers', '*');
 
+  // Deal with OPTIONS request here
+  if (req.method?.toLowerCase() == 'options') {
+    res.statusCode = 200;
+    res.end();
+    return;
+  }
+
+  // DEAL with TRACE request here
+  if (req.method?.toLowerCase() == 'trace') {
+    res.end('');
+    return;
+  }
+
   next();
 };
 

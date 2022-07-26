@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostgreSQL_DB = void 0;
 const tslib_1 = require("tslib");
-const db_1 = require("./db");
+const db_1 = require("../db");
 const pg_1 = require("pg");
 const pg_format_1 = tslib_1.__importDefault(require("pg-format"));
 class PostgreSQL_DB extends db_1.DB {

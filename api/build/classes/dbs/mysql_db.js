@@ -4,7 +4,7 @@ exports.MySQL_DB = void 0;
 const tslib_1 = require("tslib");
 const mysql_1 = tslib_1.__importDefault(require("mysql"));
 const appspace_1 = require("../../appspace");
-const db_1 = require("./db");
+const db_1 = require("../db");
 class MySQL_DB extends db_1.DB {
     constructor(config) {
         super();

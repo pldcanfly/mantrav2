@@ -4,9 +4,6 @@ import { Flowspace } from '../..';
 import http from 'http';
 import { routes, RouteNode } from '../config/routes';
 import { appspace, logger } from '../appspace';
-import fs from 'fs';
-import path from 'path';
-import { Media } from '../models/system/media';
 
 interface ParsedRouteNode extends RouteNode {
   parsed: Array<ParsedRoute>;
@@ -38,58 +35,12 @@ const parsedroutes: Array<ParsedRouteNode> = routes.map((route: RouteNode) => {
 // EXPORTS
 export const name = 'Router v2';
 export const flow = function (req: http.IncomingMessage, res: http.ServerResponse, flowspace: Flowspace, next: Function) {
-  // Deal with OPTIONS request here
-  if (req.method?.toLowerCase() == 'options') {
-    res.statusCode = 200;
-    res.end();
-    return;
-  }
-
-  // DEAL with TRACE request here
-  if (req.method?.toLowerCase() == 'trace') {
-    res.end('');
-    return;
-  }
-
-  // SERVE STATIC
-  if (req.url?.startsWith('/media/')) {
-    const id = req.url.split('/').pop();
-    if (id) {
-      fs.readFile(path.join('static', 'media', id), async function (err, content) {
-        if (err) {
-          res.statusCode = 404;
-          logger.error(`Media: Couldn't serve ${req.url}`, err);
-          res.end();
-          return;
-        } else {
-          const intid = parseInt(id);
-          if (intid) {
-            const entiy = await Media.getMedia(intid);
-            res.writeHead(200, { 'Content-type': entiy.mimetype });
-            res.end(content);
-            logger.info(`Media: Served ${req.url}`, err);
-          } else {
-            res.statusCode = 404;
-            logger.error(`Media: Couldn't serve ${req.url}`);
-            res.end();
-          }
-        }
-      });
-      return;
-    } else {
-      res.statusCode = 404;
-      logger.error(`Media: Couldn't serve ${req.url}`);
-      res.end();
-      return;
-    }
-  }
-
   // Skip auth-routes
-  if (req.url?.startsWith('/auth')) {
-    logger.info('Route v2: Auth Route skipping');
-    next();
-    return;
-  }
+  // if (req.url?.startsWith('/auth')) {
+  //   logger.info('Route v2: Auth Route skipping');
+  //   next();
+  //   return;
+  // }
 
   // Quickly handle static routes
   for (let i = 0; i < parsedroutes.length; i++) {
