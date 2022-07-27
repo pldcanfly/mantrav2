@@ -6,12 +6,6 @@ if [[ $# -ne 2 ]] ; then
     exit 0
 fi
 
-docker stop $1
-docker rm $1
-docker image rm $2/$1
-docker build -t $2/$1 .
-
-
 
 docker stop $1
 docker rm $1
