@@ -8,6 +8,8 @@ module.exports = {
         NODE_ENV: 'production',
         NODE_PORT: 4000,
         PGSCHEMA: 'mantra',
+        ACCESS_SECRET: 'thisisasecret',
+        REFRESH_SECRET: 'thisisanothersecret',
       },
       error_file: 'logs/api-error.log',
       out_file: 'logs/api-out.log',
