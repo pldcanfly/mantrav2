@@ -4,6 +4,7 @@ import { Flowspace } from '../..';
 import http from 'http';
 import { routes, RouteNode } from '../config/routes';
 import { appspace, logger } from '../appspace';
+import { z } from 'zod';
 
 interface ParsedRouteNode extends RouteNode {
   parsed: Array<ParsedRoute>;

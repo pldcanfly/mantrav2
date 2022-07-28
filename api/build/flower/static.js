@@ -48,6 +48,7 @@ const flow = function (req, res, flowspace, next) {
                 return;
             }
         }
+        next();
     });
 };
 exports.flow = flow;

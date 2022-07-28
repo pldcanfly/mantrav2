@@ -18,7 +18,7 @@ if (process.env.NODE_ENV == 'test') {
     loggeroptions.transports = [new winston_1.transports.Console({ silent: true })];
 }
 exports.logger = (0, winston_1.createLogger)(loggeroptions);
-//export const db = new PostgreSQL_DB({ connectionString: process.env.DATABASE_URL });
-exports.db = new postgresql_db_1.PostgreSQL_DB();
+exports.db = new postgresql_db_1.PostgreSQL_DB({ connectionString: process.env.DATABASE_URL });
+//export const db = new PostgreSQL_DB();
 exports.acl = acl_1.ACL;
 exports.appspace = { logger: exports.logger, db: exports.db, acl: exports.acl };

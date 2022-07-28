@@ -6,6 +6,7 @@ import { User } from '../models/system/user';
 import { Token } from '../models/system/token';
 import { logger } from '../appspace';
 import { ACL } from '../models/system/acl';
+import { z } from 'zod';
 
 export interface LoginRequestBody {
   username: string;
@@ -13,27 +14,31 @@ export interface LoginRequestBody {
 }
 
 const login = async function (res: http.ServerResponse, flowspace: Flowspace) {
-  if (flowspace.body) {
-    if (flowspace.body.hasOwnProperty('username') && flowspace.body.hasOwnProperty('password')) {
-      const username = (flowspace.body as LoginRequestBody).username.toLowerCase();
-      const password = (flowspace.body as LoginRequestBody).password;
+  try {
+    var body = z
+      .object({
+        username: z.string(),
+        password: z.string(),
+      })
+      .parse(flowspace.body);
+  } catch (e) {
+    logger.error('Auth: Login failed -> No Valid BodyData');
+    res.statusCode = 401;
+    flowspace.message = 'Wrong Username or Password';
+    return;
+  }
 
-      if (await User.checkPassword(username, password)) {
-        flowspace.message = await Token.issueTokenPairWithCredentials(await User.getUserByUsername(username));
-      } else {
-        res.statusCode = 401;
-        flowspace.message = 'Wrong Username or Password';
-        logger.error('Auth: Login failed -> Invalid Password');
-      }
+  if (body) {
+    const username = body.username.toLowerCase();
+    const password = body.password;
+
+    if (await User.checkPassword(username, password)) {
+      flowspace.message = await Token.issueTokenPairWithCredentials(await User.getUserByUsername(username));
     } else {
       res.statusCode = 401;
       flowspace.message = 'Wrong Username or Password';
-      logger.error('Auth: Login failed -> Non valid BodyData');
+      logger.error('Auth: Login failed -> Invalid Password');
     }
-  } else {
-    logger.error('Auth: Login failed -> No BodyData');
-    res.statusCode = 401;
-    flowspace.message = 'Wrong Username or Password';
   }
 };
 
@@ -94,6 +99,7 @@ const createSession = async function (req: http.IncomingMessage, res: http.Serve
 export const name = 'Auth';
 export const flow = async function (req: http.IncomingMessage, res: http.ServerResponse, flowspace: Flowspace, next: Function) {
   // Catch Auth-URLS
+
   if (req.url?.startsWith('/auth')) {
     logger.info('Auth-URL detected');
     switch (req.url) {

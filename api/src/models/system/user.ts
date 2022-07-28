@@ -40,7 +40,7 @@ class UserModel {
   async getUserByUsername(search: string) {
     return appspace.db
       .query('user')
-      .where('username', '=', search, 'OR')
+      .where('username', '=', search)
       .execute()
       .then((result: Array<UserRecord>) => result[0]);
   }

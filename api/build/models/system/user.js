@@ -37,7 +37,7 @@ class UserModel {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             return appspace_1.appspace.db
                 .query('user')
-                .where('username', '=', search, 'OR')
+                .where('username', '=', search)
                 .execute()
                 .then((result) => result[0]);
         });

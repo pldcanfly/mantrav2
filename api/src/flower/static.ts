@@ -42,6 +42,8 @@ export const flow = async function (req: http.IncomingMessage, res: http.ServerR
       return;
     }
   }
+
+  next();
 };
 
 export default { flow, name };

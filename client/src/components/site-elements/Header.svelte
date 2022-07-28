@@ -1,3 +1,20 @@
+<script lang="ts">
+	import { session } from '$store/session';
+	let loggedin = false;
+
+	session.state.subscribe(() => {
+		loggedin = session.isLoggedIn();
+	});
+
+	const login = async () => {
+		await session.action.login('pldcanfly', 'unreal2maddy');
+	};
+
+	const logout = async () => {
+		session.action.logout();
+	};
+</script>
+
 <nav>
 	<div class="left">
 		Mantra Raidplaner
@@ -7,7 +24,13 @@
 			<a href="/links/" class="nav-item"><span>Links</span></a>
 		</div>
 	</div>
-	<div class="right">Login</div>
+	<div class="right">
+		{#if !loggedin}
+			<div on:click={login}>Login</div>
+		{:else}
+			<div on:click={logout}>Logout</div>
+		{/if}
+	</div>
 </nav>
 
 <style lang="scss">

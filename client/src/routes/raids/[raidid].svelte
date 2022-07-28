@@ -1,24 +1,22 @@
 <script lang="ts">
 	import SignupCharacter from '$components/character/SignupCharacter.svelte';
-	import { mdiCheck, mdiHelp, mdiClose, mdiPencil, mdiSignatureImage } from '@mdi/js';
-	import { format } from 'date-fns';
-	import de from 'date-fns/locale/de/index';
-
-	import { io } from 'socket.io-client';
-
-	const socket = io(`${import.meta.env.VITE_WS_URL}/raid`, { forceNew: true });
-
 	import Dropable from '$components/Dropable.svelte';
 	import Icon from '$components/Icon.svelte';
 	import Pickable from '$components/Pickable.svelte';
 
-	import { iconTable } from '$store/tables';
-
+	import { mdiCheck, mdiHelp, mdiClose } from '@mdi/js';
+	import { format } from 'date-fns';
+	import de from 'date-fns/locale/de/index';
 	import type { iRaid, iSignup } from './[raidid]';
 
 	import { flip } from 'svelte/animate';
 	import { crossfade } from 'svelte/transition';
 	const [send, receive] = crossfade({ duration: 200 });
+
+	import { io } from 'socket.io-client';
+	const socket = io(`${import.meta.env.VITE_WS_URL}/raid`, { forceNew: true });
+
+	import { iconTable } from '$store/tables';
 
 	export let raid: iRaid;
 	$: unpositioned = raid.signups.filter(

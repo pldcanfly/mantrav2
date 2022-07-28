@@ -15,8 +15,13 @@ interface RefreshPayload {
   id: number;
 }
 
-interface TokenRecord {}
-
+interface TokenRecord {
+  id: number;
+  accesstoken: string;
+  refreshtoken: string;
+  issuer: string;
+  username: string;
+}
 class TokenModel {
   async getTokenPairForIssuer(token: string) {
     return appspace.db

@@ -6,31 +6,34 @@ const user_1 = require("../models/system/user");
 const token_1 = require("../models/system/token");
 const appspace_1 = require("../appspace");
 const acl_1 = require("../models/system/acl");
+const zod_1 = require("zod");
 const login = function (res, flowspace) {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
-        if (flowspace.body) {
-            if (flowspace.body.hasOwnProperty('username') && flowspace.body.hasOwnProperty('password')) {
-                const username = flowspace.body.username.toLowerCase();
-                const password = flowspace.body.password;
-                if (yield user_1.User.checkPassword(username, password)) {
-                    flowspace.message = yield token_1.Token.issueTokenPairWithCredentials(yield user_1.User.getUserByUsername(username));
-                }
-                else {
-                    res.statusCode = 401;
-                    flowspace.message = 'Wrong Username or Password';
-                    appspace_1.logger.error('Auth: Login failed -> Invalid Password');
-                }
+        try {
+            var body = zod_1.z
+                .object({
+                username: zod_1.z.string(),
+                password: zod_1.z.string(),
+            })
+                .parse(flowspace.body);
+        }
+        catch (e) {
+            appspace_1.logger.error('Auth: Login failed -> No Valid BodyData');
+            res.statusCode = 401;
+            flowspace.message = 'Wrong Username or Password';
+            return;
+        }
+        if (body) {
+            const username = body.username.toLowerCase();
+            const password = body.password;
+            if (yield user_1.User.checkPassword(username, password)) {
+                flowspace.message = yield token_1.Token.issueTokenPairWithCredentials(yield user_1.User.getUserByUsername(username));
             }
             else {
                 res.statusCode = 401;
                 flowspace.message = 'Wrong Username or Password';
-                appspace_1.logger.error('Auth: Login failed -> Non valid BodyData');
+                appspace_1.logger.error('Auth: Login failed -> Invalid Password');
             }
-        }
-        else {
-            appspace_1.logger.error('Auth: Login failed -> No BodyData');
-            res.statusCode = 401;
-            flowspace.message = 'Wrong Username or Password';
         }
     });
 };
