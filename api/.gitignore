@@ -6,7 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-api/ecosystem.config.cjs
+ecosystem.config.cjs
 
 static/
 
