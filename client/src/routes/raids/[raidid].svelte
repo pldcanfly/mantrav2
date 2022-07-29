@@ -27,16 +27,19 @@
 
 	$: roster = raid.signups.filter((signup) => signup.position != -1);
 
-	const handleDrop = (position: number) => {
+	const handleDrop = (position: number, signup: iSignup) => {
 		return (dropped?: string) => {
 			if (dropped) {
 				const char = JSON.parse(dropped) as iSignup;
 
 				//console.log(char, { test: 123 });
-				const signup = raid.signups.find((signup) => signup.character.id == char.character.id);
-				if (signup) {
-					console.log('Drop!!', signup, position);
-					signup.position = position;
+				const newsignup = raid.signups.find((signup) => signup.character.id == char.character.id);
+				if (newsignup) {
+					if (signup) {
+						signup.position = newsignup.position;
+					}
+					console.log('Drop!!', newsignup, position);
+					newsignup.position = position;
 					raid = raid;
 					updatestate();
 				}
@@ -121,7 +124,7 @@
 						{@const relativepos = group * size + pos}
 						{@const signup = roster.find((signup) => signup.position == relativepos)}
 
-						<Dropable onDrop={handleDrop(relativepos)}>
+						<Dropable onDrop={handleDrop(relativepos, signup)}>
 							{#if signup}
 								{#key signup.character.id}
 									<div
