@@ -4,21 +4,6 @@ import { writable, get } from 'svelte/store';
 import { z } from 'zod';
 import { API, type APIResult } from '$lib/api';
 
-interface AccessTokenPayload {
-	id: number;
-	username: string;
-	roles: Array<string>;
-	perms: Array<string>;
-	iat: number;
-	exp: number;
-}
-
-interface RefreshTokenPayload {
-	id: number;
-	iat: number;
-	exp: number;
-}
-
 interface SessionState {
 	id: number;
 	username: string;
