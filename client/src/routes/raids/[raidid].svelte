@@ -1,4 +1,6 @@
 <script lang="ts">
+	export let raid: iRaid;
+
 	import SignupCharacter from '$components/character/SignupCharacter.svelte';
 	import Dropable from '$components/Dropable.svelte';
 	import Icon from '$components/Icon.svelte';
@@ -10,24 +12,27 @@
 	import type { iRaid, iSignup } from './[raidid]';
 
 	import { flip } from 'svelte/animate';
-	import { crossfade } from 'svelte/transition';
+	import { crossfade, slide } from 'svelte/transition';
 	const [send, receive] = crossfade({ duration: 200 });
-
-	import { io } from 'socket.io-client';
-	const socket = io(`${import.meta.env.VITE_WS_URL}/raid`, { forceNew: true });
 
 	import { iconTable } from '$store/tables';
 
-	export let raid: iRaid;
+	import { io } from 'socket.io-client';
+	const socket = io(`${import.meta.env.VITE_WS_URL}/raid-${raid.id}`, { forceNew: true });
+
 	$: unpositioned = raid.signups.filter(
 		(signup) => signup.position == -1 && ['accepted', 'invited', 'declined'].includes(signup.state)
 	);
 
-	$: benched = raid.signups.filter((signup) => signup.position == -2);
+	$: benched = raid.signups.filter((signup) => signup.position === -2);
 
-	$: roster = raid.signups.filter((signup) => signup.position != -1);
+	$: roster = raid.signups.filter((signup) => signup.position !== -1);
 
-	const handleDrop = (position: number, signup: iSignup) => {
+	const handleDrop = (
+		position: number,
+		state?: 'accepted' | 'invited' | 'declined',
+		signup?: iSignup | undefined
+	) => {
 		return (dropped?: string) => {
 			if (dropped) {
 				const char = JSON.parse(dropped) as iSignup;
@@ -38,13 +43,24 @@
 					if (signup) {
 						signup.position = newsignup.position;
 					}
-					console.log('Drop!!', newsignup, position);
 					newsignup.position = position;
+					if (state) {
+						newsignup.state = state;
+					}
 					raid = raid;
 					updatestate();
 				}
 			}
 		};
+	};
+
+	let showDropzones = false;
+
+	const handleDragstart = () => {
+		showDropzones = true;
+	};
+	const handleDragend = () => {
+		showDropzones = false;
 	};
 
 	const updatestate = () => {
@@ -54,6 +70,11 @@
 	socket.on('refreshstate', (message: any) => {
 		console.log('refreshstate triggered');
 		raid = JSON.parse(message);
+	});
+
+	socket.on('joined', (message: any) => {
+		console.log('joined');
+		console.log(message);
 	});
 </script>
 
@@ -70,6 +91,13 @@
 <div class="raidgrid">
 	<div class="row">
 		<h2>Anmeldungen</h2>
+
+		{#if showDropzones}
+			<div class="dropzone" transition:slide={{ duration: 100 }}>
+				<Dropable onDrop={handleDrop(-1)}>Aus dem Roster</Dropable>
+			</div>
+		{/if}
+
 		<div class="unpositioned">
 			{#each unpositioned as signup (signup.character.id)}
 				<div
@@ -78,7 +106,11 @@
 					in:receive={{ key: signup.character.id }}
 					out:send={{ key: signup.character.id }}
 				>
-					<Pickable data={JSON.stringify(signup)}>
+					<Pickable
+						data={JSON.stringify(signup)}
+						on:dragstart={handleDragstart}
+						on:dragend={handleDragend}
+					>
 						<SignupCharacter {signup} />
 					</Pickable>
 				</div>
@@ -86,6 +118,7 @@
 				<div class="empty" style:grid-column="1 / span 2">Keine Anmeldungen mehr vorhanden</div>
 			{/each}
 		</div>
+
 		<div class="legend">
 			<div><Icon path={mdiHelp} width={'30px'} /> Eingeladen</div>
 			<div><Icon path={mdiCheck} width={'30px'} /> Angenommen</div>
@@ -94,20 +127,32 @@
 	</div>
 	<div class="row">
 		<h2>Ersatzbank</h2>
-		{#each benched as signup (signup.character.id)}
-			<div
-				class="animcontainer"
-				animate:flip={{ duration: 200 }}
-				in:receive={{ key: signup.character.id }}
-				out:send={{ key: signup.character.id }}
-			>
-				<Pickable data={JSON.stringify(signup)}>
-					<SignupCharacter {signup} />
-				</Pickable>
+		{#if showDropzones}
+			<div class="dropzone" transition:slide={{ duration: 100 }}>
+				<Dropable onDrop={handleDrop(-2)}>Zur Ersatzbank</Dropable>
 			</div>
-		{:else}
-			<div class="empty">Leere Ersatzbank</div>
-		{/each}
+		{/if}
+
+		<div class="benched">
+			{#each benched as signup (signup.character.id)}
+				<div
+					class="animcontainer"
+					animate:flip={{ duration: 200 }}
+					in:receive={{ key: signup.character.id }}
+					out:send={{ key: signup.character.id }}
+				>
+					<Pickable
+						data={JSON.stringify(signup)}
+						on:dragstart={handleDragstart}
+						on:dragend={handleDragend}
+					>
+						<SignupCharacter {signup} />
+					</Pickable>
+				</div>
+			{:else}
+				<div class="empty">Leere Ersatzbank</div>
+			{/each}
+		</div>
 	</div>
 	<div class="row"><h2>Raidbuffs - NYI</h2></div>
 	<div class="row">
@@ -124,7 +169,7 @@
 						{@const relativepos = group * size + pos}
 						{@const signup = roster.find((signup) => signup.position == relativepos)}
 
-						<Dropable onDrop={handleDrop(relativepos, signup)}>
+						<Dropable onDrop={handleDrop(relativepos, signup?.state, signup)}>
 							{#if signup}
 								{#key signup.character.id}
 									<div
@@ -132,7 +177,11 @@
 										in:receive={{ key: signup.character.id }}
 										out:send={{ key: signup.character.id }}
 									>
-										<Pickable data={JSON.stringify(signup)}>
+										<Pickable
+											data={JSON.stringify(signup)}
+											on:dragstart={handleDragstart}
+											on:dragend={handleDragend}
+										>
 											<SignupCharacter {signup} />
 										</Pickable>
 									</div>
@@ -161,6 +210,21 @@
 		width: 100%;
 	}
 
+	.dropzone {
+		margin-bottom: 50px;
+	}
+
+	:global {
+		.dropzone {
+			.dropable {
+				width: 100%;
+				height: 50px;
+				justify-content: center;
+				align-items: center;
+			}
+		}
+	}
+
 	.unpositioned {
 		display: grid;
 		grid-template-columns: 1fr;
@@ -169,6 +233,12 @@
 		@media screen and (min-width: 1000px) {
 			grid-template-columns: 1fr 1fr;
 		}
+	}
+
+	.benched {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 10px;
 	}
 
 	.legend {

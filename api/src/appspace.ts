@@ -25,8 +25,8 @@ if (process.env.NODE_ENV == 'test') {
 
 export const logger = createLogger(loggeroptions);
 
-export const db = new PostgreSQL_DB({ connectionString: process.env.DATABASE_URL });
-//export const db = new PostgreSQL_DB();
+//export const db = new PostgreSQL_DB({ connectionString: process.env.DATABASE_URL });
+export const db = new PostgreSQL_DB();
 
 export const acl = ACL;
 

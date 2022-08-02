@@ -4,7 +4,7 @@ exports.rooms = void 0;
 const raid_1 = require("../rooms/raid");
 exports.rooms = [
     {
-        name: 'raid',
+        name: /^\/raid-\d+$/,
         handler: raid_1.RaidRoom,
         events: ['updatestate'],
     },

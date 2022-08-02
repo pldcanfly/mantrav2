@@ -2,8 +2,9 @@
 
 import { Job } from '../classes/scheduler/job';
 import { PostgreSQL_DB } from '../classes/dbs/postgresql_db';
+import { appspace } from '../appspace';
 
-const db = new PostgreSQL_DB();
+const db = appspace.db;
 
 class TokencleanerJob extends Job {
   async run() {

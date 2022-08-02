@@ -66,6 +66,8 @@ const login = async (username: string, password: string) => {
 		})
 		.catch(() => {
 			console.error('Login failed');
+			throw 'Username oder Passwort falsch';
+			return;
 		});
 };
 
@@ -85,7 +87,7 @@ const refresh = async () => {
 		})
 		.catch(() => {
 			logout();
-			console.error('Login failed');
+
 			return false;
 		});
 };

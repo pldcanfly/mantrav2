@@ -1,9 +1,12 @@
 <script lang="ts">
 	import Footer from '$components/site-elements/Footer.svelte';
 	import Header from '$components/site-elements/Header.svelte';
+
+	import Notification from '$components/Notification.svelte';
 </script>
 
 <Header />
+<Notification />
 
 <div class="page">
 	<slot />

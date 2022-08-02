@@ -2,7 +2,7 @@ import { RaidRoom } from '../rooms/raid';
 
 export const rooms = [
   {
-    name: 'raid',
+    name: /^\/raid-\d+$/,
     handler: RaidRoom,
     events: ['updatestate'],
   },

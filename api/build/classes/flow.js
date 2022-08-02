@@ -21,11 +21,12 @@ class Flow {
             appspace_1.logger.info(`Websocket: Adding room: ${room.name}`);
             if (room.events) {
                 this.wsserver.of(room.name).on('connection', (socket) => {
-                    socket.join(room.name);
-                    socket.emit('joined', room.name);
+                    const namespace = socket.nsp.name;
+                    socket.join(namespace);
+                    socket.emit('joined', namespace);
                     for (const event of room.events) {
                         if (room.handler[event]) {
-                            socket.on(event, (message) => room.handler[event]((event, data) => socket.to(room.name).emit(event, data), message));
+                            socket.on(event, (message) => room.handler[event]((event, data) => socket.to(namespace).emit(event, data), message));
                         }
                     }
                 });

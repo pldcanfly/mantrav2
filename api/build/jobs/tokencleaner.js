@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const job_1 = require("../classes/scheduler/job");
-const postgresql_db_1 = require("../classes/dbs/postgresql_db");
-const db = new postgresql_db_1.PostgreSQL_DB();
+const appspace_1 = require("../appspace");
+const db = appspace_1.appspace.db;
 class TokencleanerJob extends job_1.Job {
     run() {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {

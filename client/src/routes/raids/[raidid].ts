@@ -9,7 +9,7 @@ export interface iRaid {
 }
 
 export interface iSignup {
-	state: 'invited' | 'accepted' | 'declined' | 'benched';
+	state: 'invited' | 'accepted' | 'declined';
 	position: number;
 	comment?: string;
 	character: iCharacter;
