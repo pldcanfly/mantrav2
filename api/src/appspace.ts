@@ -3,6 +3,8 @@ import { createLogger, format, transports } from 'winston';
 import { PostgreSQL_DB } from './classes/dbs/postgresql_db';
 import { ACL } from './models/system/acl';
 
+import { WSNamespace } from './classes/wsnamespace';
+
 const loggeroptions = {
   level: 'info',
   format: format.combine(
@@ -24,10 +26,11 @@ if (process.env.NODE_ENV == 'test') {
 }
 
 export const logger = createLogger(loggeroptions);
+export let db: PostgreSQL_DB;
 
-//export const db = new PostgreSQL_DB({ connectionString: process.env.DATABASE_URL });
-export const db = new PostgreSQL_DB();
+db = new PostgreSQL_DB({ connectionString: process.env.DATABASE_URL });
 
 export const acl = ACL;
+export const namespaces = new Map();
 
-export const appspace: Appspace = { logger, db, acl };
+export const appspace: Appspace = { logger, db, acl, namespaces };

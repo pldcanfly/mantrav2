@@ -1,21 +1,17 @@
 <script lang="ts">
+	import Label from '$components/form/Label.svelte';
+
 	import { addNotification } from '$store/notification';
 
-	import { session } from '$store/session';
-
-	let loggedin = false;
+	import { hasPerm, isLoggedIn, login, logout } from '$store/session';
 
 	let username = '';
 	let password = '';
 	let showLogin = false;
 
-	session.state.subscribe(() => {
-		loggedin = session.isLoggedIn();
-	});
-
-	const login = async () => {
+	const onLogin = async () => {
 		try {
-			await session.action.login(username, password);
+			await login(username, password);
 			addNotification(`Willkommen ${username}!`, 'success', 5000);
 			showLogin = false;
 		} catch (err) {
@@ -23,8 +19,8 @@
 		}
 	};
 
-	const logout = async () => {
-		session.action.logout();
+	const onLogout = async () => {
+		await logout();
 	};
 </script>
 
@@ -38,19 +34,29 @@
 		</div>
 	</div>
 	<div class="right">
-		{#if !loggedin}
+		{#if !$isLoggedIn}
 			<div class="nav-item" on:click={() => (showLogin = !showLogin)}>Login</div>
 		{:else}
-			<div class="nav-item" on:click={logout}>Logout</div>
+			{#if hasPerm('usermanagment')}
+				<a href="/management/users" class="nav-item"><span>Userverwaltung</span></a>
+			{/if}
+			{#if hasPerm('groupmanagment')}
+				<a href="/management/groups" class="nav-item"><span>Gruppenverwaltung</span></a>
+			{/if}
+			<a href="/profile/" class="nav-item"><span>Mein Profil</span></a>
+			<div class="nav-item" on:click={onLogout}>Logout</div>
 		{/if}
 	</div>
 </nav>
 {#if showLogin}
-	<div class="loginframe">
-		<span>Username</span><input type="text" bind:value={username} />
-		<span>Passwort</span><input type="password" bind:value={password} />
-		<div class="button" on:click={login}>Einloggen</div>
-	</div>
+	<form action="javascript:void(0);" on:submit={onLogin}>
+		<div class="loginframe">
+			<Label label="Username" width="90px"><input type="text" bind:value={username} /></Label>
+			<Label label="Passwort" width="90px"><input type="password" bind:value={password} /></Label>
+
+			<button class="button" type="submit">Einloggen</button>
+		</div>
+	</form>
 {/if}
 
 <style lang="scss">
@@ -66,28 +72,28 @@
 		box-shadow: var(--c_shadow);
 		display: grid;
 		grid-template-rows: 1fr 1fr 40px;
-		grid-template-columns: 90px 1fr;
+		grid-template-columns: 1fr;
 		justify-content: center;
 		align-items: center;
 		gap: 10px 0px;
 
-		span {
-			display: grid;
-			justify-items: center;
-			align-items: center;
-			padding: 9px;
+		// span {
+		// 	display: grid;
+		// 	justify-items: center;
+		// 	align-items: center;
+		// 	padding: 9px;
 
-			background-color: var(--c__lighter_background);
-		}
+		// 	background-color: var(--c__lighter_background);
+		// }
 
 		.button {
-			grid-column: 1 / span 2;
-
 			@include green-hoverable;
 			display: grid;
 			justify-content: center;
 			align-items: center;
 			height: 40px;
+			border: none;
+			color: var(--c__text);
 		}
 	}
 	nav {

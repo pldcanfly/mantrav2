@@ -1,5 +1,6 @@
 <script lang="ts">
 	export let data: string = '{}';
+	export let draggable = true;
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
@@ -26,7 +27,7 @@
 	on:dragstart={handleDragstart}
 	on:drag={handleDrag}
 	on:dragend={handleDragend}
-	draggable="true"
+	{draggable}
 >
 	<slot />
 </div>
@@ -34,5 +35,9 @@
 <style lang="scss">
 	.container {
 		width: 100%;
+	}
+
+	.pickedup {
+		opacity: 0.5;
 	}
 </style>

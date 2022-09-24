@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { blur } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 	import Icon from '$components/Icon.svelte';
+	import { hasPerm } from '$store/session';
 	import { mdiArrowLeft, mdiArrowRight } from '@mdi/js';
 	import {
 		startOfMonth,
@@ -17,9 +17,10 @@
 		addMonths
 	} from 'date-fns';
 	import de from 'date-fns/locale/de/index';
-	import type { iRaid } from './[raidid]';
+	import type { iRaid } from 'src/app';
 
-	export let raids: Array<iRaid>;
+	export let data;
+	let raids: Array<iRaid> = data.raids;
 	let date = new Date();
 	let today = new Date();
 	let showWeekend = true;
@@ -44,6 +45,10 @@
 <br />
 
 Weekend: <input type="checkbox" bind:checked={showWeekend} />
+
+{#if hasPerm('raidmanagement')}
+	<a href="/raids/new">Neuer Raid</a>
+{/if}
 
 <div class="nav">
 	<div class="prevmonth switcher noselect" on:click={() => (date = subMonths(date, 1))}>

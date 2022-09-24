@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { PostgreSQL_DB } from './src/classes/dbs/postgresql_db.js';
 
 import { JobScheduler } from './src/classes/scheduler/scheduler.js';
+import { WSNamespace } from './src/classes/wsnamespace.js';
 import { ACL } from './src/models/system/acl.js';
 import { UserRecord } from './src/models/system/user.js';
 
@@ -10,6 +11,7 @@ type Appspace = {
   db: PostgreSQL_DB;
   acl: typeof ACL;
   scheduler?: JobScheduler;
+  namespaces: Map<string | RegExp, WSNamespace>;
   [propName: string]: any;
 };
 

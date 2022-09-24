@@ -8,8 +8,30 @@ import mage from '$icons/classicons/mage.png';
 import warlock from '$icons/classicons/warlock.png';
 import druid from '$icons/classicons/druid.png';
 import dk from '$icons/classicons/dk.jpg';
+import unknown from '$icons/classicons/unknown.png';
 
-export const classTable = {
+interface ClassTable {
+	warrior: ClassTableEntry;
+	paladin: ClassTableEntry;
+	hunter: ClassTableEntry;
+	rogue: ClassTableEntry;
+	priest: ClassTableEntry;
+	shaman: ClassTableEntry;
+	mage: ClassTableEntry;
+	warlock: ClassTableEntry;
+	druid: ClassTableEntry;
+	deathknight: ClassTableEntry;
+	unknown: ClassTableEntry;
+}
+
+interface ClassTableEntry {
+	name: string;
+	icon: string;
+	color: string;
+	speccs: Array<Specc>;
+}
+
+export const classTable: ClassTable = {
 	warrior: {
 		name: 'Warrior',
 		color: '#C69B6D',
@@ -69,6 +91,12 @@ export const classTable = {
 		color: '#e84655',
 		icon: dk,
 		speccs: ['dkblood', 'dkfrost', 'dkunholy']
+	},
+	unknown: {
+		name: 'Unbekannt',
+		color: '#fff',
+		icon: unknown,
+		speccs: ['unknown']
 	}
 };
 
@@ -103,7 +131,49 @@ import dkblood from '$icons/speccicons/dkblood.jpg';
 import dkfrost from '$icons/speccicons/dkfrost.jpg';
 import dkunholy from '$icons/speccicons/dkunholy.jpg';
 
-export const speccTable = {
+interface SpeccTable {
+	warms: SpeccTableEntry;
+	wfury: SpeccTableEntry;
+	wprot: SpeccTableEntry;
+	pholy: SpeccTableEntry;
+	pprot: SpeccTableEntry;
+	pretri: SpeccTableEntry;
+	hbm: SpeccTableEntry;
+	hmm: SpeccTableEntry;
+	hsv: SpeccTableEntry;
+	rassa: SpeccTableEntry;
+	rcombat: SpeccTableEntry;
+	rsub: SpeccTableEntry;
+	prdisc: SpeccTableEntry;
+	prshadow: SpeccTableEntry;
+	sele: SpeccTableEntry;
+	sench: SpeccTableEntry;
+	sresto: SpeccTableEntry;
+	marcane: SpeccTableEntry;
+	mfire: SpeccTableEntry;
+	mfrost: SpeccTableEntry;
+	waffli: SpeccTableEntry;
+	wdemo: SpeccTableEntry;
+	wdestro: SpeccTableEntry;
+	dbalance: SpeccTableEntry;
+	dferal: SpeccTableEntry;
+	dresto: SpeccTableEntry;
+	dbear: SpeccTableEntry;
+	dkblood: SpeccTableEntry;
+	dkfrost: SpeccTableEntry;
+	dkunholy: SpeccTableEntry;
+	unknown: SpeccTableEntry;
+}
+
+interface SpeccTableEntry {
+	name: string;
+	role: Role;
+	icon: string;
+}
+
+type Role = 'melee' | 'ranged' | 'heal' | 'tank';
+
+export const speccTable: SpeccTable = {
 	warms: { name: 'Arms', role: 'melee', icon: warms },
 	wfury: { name: 'Fury', role: 'melee', icon: wfury },
 	wprot: { name: 'Protection', role: 'tank', icon: wprot },
@@ -133,7 +203,8 @@ export const speccTable = {
 	dbear: { name: 'Feral (Tank)', role: 'tank', icon: dbear },
 	dkblood: { name: 'Blood', role: 'tank', icon: dkblood },
 	dkfrost: { name: 'Frost', role: 'melee', icon: dkfrost },
-	dkunholy: { name: 'Unholy', role: 'melee', icon: dkunholy }
+	dkunholy: { name: 'Unholy', role: 'melee', icon: dkunholy },
+	unknown: { name: 'Unbekannt', role: 'melee', icon: unknown }
 };
 
 import orcf from '$icons/raceicons/orcf.png';
@@ -147,43 +218,76 @@ import undeadf from '$icons/raceicons/undeadf.png';
 import bem from '$icons/raceicons/bem.png';
 import bef from '$icons/raceicons/bef.png';
 
-export const raceTable = {
+interface RaceTable {
+	orc: RaceTableEntry;
+	tauren: RaceTableEntry;
+	troll: RaceTableEntry;
+	undead: RaceTableEntry;
+	bloodelf: RaceTableEntry;
+	unknown: RaceTableEntry;
+}
+
+interface RaceTableEntry {
+	name: string;
+	icon: {
+		male: string;
+		female: string;
+	};
+	classes: Array<Clazz>;
+}
+
+export const raceTable: RaceTable = {
 	orc: {
 		name: 'Orc',
 		icon: {
 			male: orcm,
 			female: orcf
-		}
+		},
+		classes: ['deathknight', 'warrior', 'shaman', 'hunter', 'rogue', 'warlock']
 	},
 	tauren: {
 		name: 'Tauren',
 		icon: {
 			male: taurenm,
 			female: taurenf
-		}
+		},
+		classes: ['deathknight', 'warrior', 'shaman', 'hunter', 'druid']
 	},
 	troll: {
 		name: 'Troll',
 		icon: {
 			male: trollm,
 			female: trollf
-		}
+		},
+		classes: ['deathknight', 'warrior', 'shaman', 'hunter', 'mage', 'priest', 'rogue']
 	},
 	undead: {
 		name: 'Undead',
 		icon: {
 			male: undeadm,
 			female: undeadf
-		}
+		},
+		classes: ['deathknight', 'warrior', 'mage', 'priest', 'rogue', 'warlock']
 	},
 	bloodelf: {
 		name: 'Blood Elf',
 		icon: {
 			male: bem,
 			female: bef
-		}
+		},
+		classes: ['deathknight', 'hunter', 'mage', 'paladin', 'priest', 'rogue', 'warlock']
+	},
+	unknown: {
+		name: 'Unbekannt',
+		icon: {
+			male: unknown,
+			female: unknown
+		},
+		classes: ['unknown']
 	}
 };
+
+import type { Clazz, Specc } from 'src/app';
 
 import archimonde from '$icons/icons/archimonde.png';
 import grulls from '$icons/icons/grulls.png';
@@ -194,13 +298,14 @@ import kj from '$icons/icons/kj.png';
 import naxx from '$icons/icons/naxx.png';
 import vashij from '$icons/icons/vashij.png';
 
-export const iconTable = {
-	archimonde,
-	grulls,
-	illidan,
-	kara,
-	keal,
-	kj,
-	naxx,
-	vashij
-};
+export const icons = new Map([
+	['archimonde', archimonde],
+	['grulls', grulls],
+	['illidan', illidan],
+	['kara', kara],
+	['keal', keal],
+	['kj', kj],
+	['naxx', naxx],
+	['vashij', vashij],
+	['unknown', unknown]
+]);

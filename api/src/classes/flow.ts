@@ -3,9 +3,9 @@
 import http from 'node:http';
 import socketio from 'socket.io';
 import { Flower, Flowspace } from '../..';
-import { rooms } from '../config/rooms';
+import { namespaces } from '../config/wsnamespaces';
 
-import { logger } from '../appspace';
+import { logger, appspace } from '../appspace';
 
 class Flow {
   private server: http.Server;
@@ -18,29 +18,18 @@ class Flow {
 
     this.server = http.createServer(this.flowHandler());
 
+    // WEBSOCKETS
     this.wsserver = new socketio.Server(this.server, {
       cors: { origin: '*' },
     });
-    this.initWSS();
-    return this;
-  }
 
-  initWSS() {
-    for (const room of rooms) {
-      logger.info(`Websocket: Adding room: ${room.name}`);
-      if (room.events) {
-        this.wsserver.of(room.name).on('connection', (socket) => {
-          const namespace = socket.nsp.name;
-          socket.join(namespace);
-          socket.emit('joined', namespace);
-          for (const event of room.events) {
-            if (room.handler[event]) {
-              socket.on(event, (message) => room.handler[event]((event: string, data: any) => socket.to(namespace).emit(event, data), message));
-            }
-          }
-        });
-      }
+    for (const namespace of namespaces) {
+      logger.info(`Websocket: Adding namespace: ${namespace.name}`);
+      const handler = new namespace.handler(this.wsserver, namespace);
+      appspace.namespaces.set(namespace.name, handler);
     }
+
+    return this;
   }
 
   listen() {

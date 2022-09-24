@@ -2,8 +2,9 @@
 	import { speccTable } from '$store/tables';
 
 	export let specc: Specc;
-	export let offspecc: Specc | undefined;
+	export let offspecc: Specc | undefined = undefined;
 	export let size: number = 45;
+	export let click: any = () => undefined;
 </script>
 
 <div
@@ -11,6 +12,7 @@
 	style:background-image="url({speccTable[specc].icon})"
 	style:width="{size}px"
 	style:height="{size}px"
+	on:click={click}
 >
 	{#if offspecc}
 		<div

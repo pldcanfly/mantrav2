@@ -20,7 +20,7 @@ class UserModel {
       .then((result: Array<UserRecord>) => result);
   }
 
-  async deleteUser(id: number) {
+  async deleteUser(id: string) {
     return appspace.db
       .query('user')
       .delete()
@@ -83,7 +83,7 @@ class UserModel {
       .then((result: Array<UserRecord>) => result[0]);
   }
 
-  async updateUser(id: number, user: any) {
+  async updateUser(id: string, user: any) {
     const query = appspace.db.query('user').update();
 
     if (user.username) query.set('username', user.username.trim());
@@ -95,7 +95,7 @@ class UserModel {
       .then((result: Array<UserRecord>) => result[0]);
   }
 
-  async setPassword(id: number, password: string) {
+  async setPassword(id: string, password: string) {
     return appspace.db
       .query('user')
       .update()

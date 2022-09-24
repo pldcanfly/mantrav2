@@ -1,24 +1,25 @@
 <script lang="ts">
-	export let raid: iRaid;
+	export let data;
+
+	let raid: iRaid = data.raid;
 
 	import SignupCharacter from '$components/character/SignupCharacter.svelte';
 	import Dropable from '$components/Dropable.svelte';
-	import Icon from '$components/Icon.svelte';
+
 	import Pickable from '$components/Pickable.svelte';
 
-	import { mdiCheck, mdiHelp, mdiClose } from '@mdi/js';
 	import { format } from 'date-fns';
 	import de from 'date-fns/locale/de/index';
-	import type { iRaid, iSignup } from './[raidid]';
 
 	import { flip } from 'svelte/animate';
 	import { crossfade, slide } from 'svelte/transition';
 	const [send, receive] = crossfade({ duration: 200 });
 
-	import { iconTable } from '$store/tables';
-
-	import { io } from 'socket.io-client';
-	const socket = io(`${import.meta.env.VITE_WS_URL}/raid-${raid.id}`, { forceNew: true });
+	import type { iRaid, iSignup } from 'src/app';
+	import { icons } from '$store/tables';
+	import { hasPerm } from '$store/session';
+	import { wssend, wson } from '$lib/websocket';
+	import { API } from '$lib/api';
 
 	$: unpositioned = raid.signups.filter(
 		(signup) => signup.position == -1 && ['accepted', 'invited', 'declined'].includes(signup.state)
@@ -36,8 +37,6 @@
 		return (dropped?: string) => {
 			if (dropped) {
 				const char = JSON.parse(dropped) as iSignup;
-
-				//console.log(char, { test: 123 });
 				const newsignup = raid.signups.find((signup) => signup.character.id == char.character.id);
 				if (newsignup) {
 					if (signup) {
@@ -48,7 +47,8 @@
 						newsignup.state = state;
 					}
 					raid = raid;
-					updatestate();
+
+					updatestate(newsignup)();
 				}
 			}
 		};
@@ -63,25 +63,43 @@
 		showDropzones = false;
 	};
 
-	const updatestate = () => {
-		socket.emit('updatestate', JSON.stringify(raid));
+	const socket = { name: 'raid', audience: raid.id?.toString() };
+
+	const updatestate = (signup: iSignup) => async () => {
+		await API({ url: `/signups/${raid.id}`, method: 'patch', data: signup });
+		//wssend({ ...socket, event: 'updatestate', message: JSON.stringify(signup) });
 	};
 
-	socket.on('refreshstate', (message: any) => {
-		console.log('refreshstate triggered');
-		raid = JSON.parse(message);
+	wson({
+		...socket,
+		event: 'updateraid',
+		handler: (message: any) => {
+			raid = message;
+		}
 	});
 
-	socket.on('joined', (message: any) => {
-		console.log('joined');
-		console.log(message);
+	wson({
+		...socket,
+		event: 'updatestate',
+		handler: (message: any) => {
+			for (const index in raid.signups) {
+				if (raid.signups[index].character.id === message.character.id) {
+					raid.signups[index] = message;
+					break;
+				}
+			}
+		}
 	});
 </script>
 
-<h1>Raid {raid.name}</h1>
+<h1>{raid.name}</h1>
+
+{#if hasPerm('raidmanagement')}
+	<a href="/raids/{raid.id}/edit">Raid bearbeiten</a>
+{/if}
 
 <div class="header">
-	<div class="icon" style:background-image="url({iconTable[raid.icon]})" />
+	<div class="icon" style:background-image="url({icons.get(raid.icon)})" />
 	<div class="text">
 		{format(new Date(raid.date), 'd. MMMM, yyyy - HH:mm ', { locale: de })}<br />
 		{raid.description}
@@ -90,13 +108,7 @@
 
 <div class="raidgrid">
 	<div class="row">
-		<h2>Anmeldungen</h2>
-
-		{#if showDropzones}
-			<div class="dropzone" transition:slide={{ duration: 100 }}>
-				<Dropable onDrop={handleDrop(-1)}>Aus dem Roster</Dropable>
-			</div>
-		{/if}
+		<h2>Einladungen</h2>
 
 		<div class="unpositioned">
 			{#each unpositioned as signup (signup.character.id)}
@@ -107,31 +119,28 @@
 					out:send={{ key: signup.character.id }}
 				>
 					<Pickable
+						draggable={hasPerm('raidmanagement')}
 						data={JSON.stringify(signup)}
 						on:dragstart={handleDragstart}
 						on:dragend={handleDragend}
 					>
-						<SignupCharacter {signup} />
+						<SignupCharacter {signup} on:changed={updatestate(signup)} />
 					</Pickable>
 				</div>
 			{:else}
-				<div class="empty" style:grid-column="1 / span 2">Keine Anmeldungen mehr vorhanden</div>
+				{#if !showDropzones}
+					<div class="empty" style:grid-column="1 / span 2">Keine Anmeldungen mehr vorhanden</div>
+				{/if}
 			{/each}
 		</div>
-
-		<div class="legend">
-			<div><Icon path={mdiHelp} width={'30px'} /> Eingeladen</div>
-			<div><Icon path={mdiCheck} width={'30px'} /> Angenommen</div>
-			<div><Icon path={mdiClose} width={'30px'} /> Abgelehnt</div>
-		</div>
+		{#if showDropzones}
+			<div class="dropzone" transition:slide={{ duration: 100 }}>
+				<Dropable onDrop={handleDrop(-1)}>Verschieben</Dropable>
+			</div>
+		{/if}
 	</div>
 	<div class="row">
 		<h2>Ersatzbank</h2>
-		{#if showDropzones}
-			<div class="dropzone" transition:slide={{ duration: 100 }}>
-				<Dropable onDrop={handleDrop(-2)}>Zur Ersatzbank</Dropable>
-			</div>
-		{/if}
 
 		<div class="benched">
 			{#each benched as signup (signup.character.id)}
@@ -142,19 +151,28 @@
 					out:send={{ key: signup.character.id }}
 				>
 					<Pickable
+						draggable={hasPerm('raidmanagement')}
 						data={JSON.stringify(signup)}
 						on:dragstart={handleDragstart}
 						on:dragend={handleDragend}
 					>
-						<SignupCharacter {signup} />
+						<SignupCharacter {signup} on:changed={updatestate(signup)} />
 					</Pickable>
 				</div>
 			{:else}
-				<div class="empty">Leere Ersatzbank</div>
+				{#if !showDropzones}
+					<div class="empty">Leere Ersatzbank</div>
+				{/if}
 			{/each}
 		</div>
+
+		{#if showDropzones}
+			<div class="dropzone" transition:slide={{ duration: 100 }}>
+				<Dropable onDrop={handleDrop(-2)}>Verschieben</Dropable>
+			</div>
+		{/if}
 	</div>
-	<div class="row"><h2>Raidbuffs - NYI</h2></div>
+	<!-- <div class="row"><h2>Raidbuffs - NYI</h2></div> -->
 	<div class="row">
 		<h2>Roster</h2>
 		<div class="rostergrid">
@@ -178,11 +196,12 @@
 										out:send={{ key: signup.character.id }}
 									>
 										<Pickable
+											draggable={hasPerm('raidmanagement')}
 											data={JSON.stringify(signup)}
 											on:dragstart={handleDragstart}
 											on:dragend={handleDragend}
 										>
-											<SignupCharacter {signup} />
+											<SignupCharacter {signup} on:changed={updatestate(signup)} />
 										</Pickable>
 									</div>
 								{/key}
@@ -241,17 +260,17 @@
 		gap: 10px;
 	}
 
-	.legend {
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
-		margin-top: 20px;
-		div {
-			display: grid;
-			grid-template-columns: 30px 1fr;
-			align-items: center;
-			gap: 10px;
-		}
-	}
+	// .legend {
+	// 	display: grid;
+	// 	grid-template-columns: 1fr 1fr 1fr;
+	// 	margin-top: 20px;
+	// 	div {
+	// 		display: grid;
+	// 		grid-template-columns: 30px 1fr;
+	// 		align-items: center;
+	// 		gap: 10px;
+	// 	}
+	// }
 
 	.header {
 		display: flex;
@@ -272,7 +291,7 @@
 		gap: 30px;
 
 		@media screen and (min-width: 1000px) {
-			grid-template-columns: 3fr 1.5fr 1fr 3fr;
+			grid-template-columns: 3fr 1.5fr 3fr;
 		}
 		// .row {
 		// 	border: 1px solid green;

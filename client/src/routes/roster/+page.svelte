@@ -1,8 +1,10 @@
 <script lang="ts">
-	import type { Roster } from '.';
+	import type { Roster } from './+page';
 
-	export let roster: Roster;
+	export let data;
+	let roster: Roster = data.roster;
 	import Character from '$components/character/Character.svelte';
+	import type { iCharacter } from 'src/app';
 
 	const namesort = (a: iCharacter, b: iCharacter) => {
 		if (a.name > b.name) return 1;

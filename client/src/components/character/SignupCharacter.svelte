@@ -1,21 +1,31 @@
 <script lang="ts">
-	import type { iSignup } from 'src/routes/raids/[raidid]';
 	import { slide } from 'svelte/transition';
 	import { mdiCheck, mdiHelp, mdiClose, mdiCommentText, mdiCommentEdit } from '@mdi/js';
 	import SpeccIcon from '$components/Icons/SpeccIcon.svelte';
 	import { classTable } from '$store/tables';
 	import Icon from '$components/Icon.svelte';
+	import type { iSignup } from 'src/app';
+	import { isLoggedIn, accountid } from '$store/session';
+	import { createEventDispatcher } from 'svelte';
 
 	export let signup: iSignup;
+	const emit = createEventDispatcher();
+
 	let showComment = false;
 	const character = signup.character;
-	$: actions = signup.actions;
+	$: actions = $isLoggedIn && signup.character.accountid == $accountid;
+
+	const onChange = () => {
+		emit('changed');
+	};
 
 	const handleAccept = () => {
 		signup.state = 'accepted';
+		onChange();
 	};
 	const handleDecline = () => {
 		signup.state = 'declined';
+		onChange();
 	};
 
 	$: inroster = signup.position > -1;
@@ -32,6 +42,7 @@
 
 	const savecomment = () => {
 		showComment = false;
+		onChange();
 	};
 
 	const sanitize = (val: string) => val.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
@@ -90,7 +101,7 @@
 			<Icon path={mdiClose} width={inroster ? '20px' : '25px'} />
 		{/if}
 	</div>
-	{#if actions && !inroster}
+	{#if actions}
 		<div
 			class="action-container"
 			style={signup.state == 'invited'

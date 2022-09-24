@@ -11,13 +11,37 @@ declare namespace App {
 }
 
 interface iCharacter {
-	id: number;
+	id: string;
 	name: string;
 	race: Race;
 	clazz: Clazz;
 	specc: Specc;
 	offspecc?: Specc;
 	female: boolean;
+	accountid: string;
+}
+
+interface iGroup {
+	id: number;
+	name: string;
+	members: Array<iCharacter>;
+}
+
+export interface iRaid {
+	id?: number;
+	name: string;
+	description: string;
+	icon: iIcons;
+	date: string;
+	size: number;
+	signups: Array<iSignup>;
+}
+
+export interface iSignup {
+	state: 'invited' | 'accepted' | 'declined';
+	position: number;
+	comment?: string;
+	character: iCharacter;
 }
 
 type Clazz =
@@ -30,9 +54,10 @@ type Clazz =
 	| 'mage'
 	| 'warlock'
 	| 'druid'
-	| 'deathknight';
+	| 'deathknight'
+	| 'unknown';
 
-type Race = 'orc' | 'tauren' | 'troll' | 'undead' | 'bloodelf';
+type Race = 'orc' | 'tauren' | 'troll' | 'undead' | 'bloodelf' | 'unknown';
 
 type Specc =
 	| 'warms'
@@ -64,6 +89,14 @@ type Specc =
 	| 'dbear'
 	| 'dkblood'
 	| 'dkfrost'
-	| 'dkunholy';
+	| 'dkunholy'
+	| 'unknown';
 
-type iIcons = 'archimonde' | 'grulls' | 'illidan' | 'kara' | 'keal' | 'kj' | 'naxx' | 'vashij';
+type iIcons = string;
+
+export interface iUser {
+	id?: string;
+	username: string;
+	password: string;
+	open?: boolean;
+}

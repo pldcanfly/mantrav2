@@ -74,7 +74,7 @@ class TokenModel {
     invalidateIssuer(token) {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            return (_a = appspace_1.appspace.db) === null || _a === void 0 ? void 0 : _a.query('activetokens').delete(true).where('issuer', '=', token).execute();
+            return (_a = appspace_1.appspace.db) === null || _a === void 0 ? void 0 : _a.query('activetokens').delete().where('issuer', '=', token).execute();
         });
     }
     issueTokenPairWithCredentials(user) {
