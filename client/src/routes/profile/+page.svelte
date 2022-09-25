@@ -15,10 +15,6 @@
 
 	let characters: Map<string, iCharacter> = new Map();
 
-	for (const char of data.characters) {
-		characters.set(char.id, char);
-	}
-
 	const reloadUsers = async () => {
 		const newchars = (await API({ url: '/characters/mine' })).data.message as Array<iCharacter>;
 		characters = new Map();
@@ -26,6 +22,8 @@
 			characters.set(char.id, char);
 		}
 	};
+
+	reloadUsers();
 
 	const addCharacter = () => {
 		if ($accountid !== 0) {

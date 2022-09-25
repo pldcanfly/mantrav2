@@ -1,15 +1,26 @@
 'use strict';
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FilesView = exports.del = exports.put = exports.get = exports.name = void 0;
-const tslib_1 = require("tslib");
-const path_1 = tslib_1.__importDefault(require("path"));
-const fs_1 = tslib_1.__importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
+const fs_1 = __importDefault(require("fs"));
 const files_1 = require("../../models/system/files");
 const crypto_1 = require("crypto");
 exports.name = 'FilesView';
 const get = function (req, res, flowspace) {
     var _a, _b, _c;
-    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         if (((_a = flowspace.params) === null || _a === void 0 ? void 0 : _a.hash) && ((_b = flowspace.params) === null || _b === void 0 ? void 0 : _b.filename)) {
             //res.writeHead(200, { 'Content-type': entiy.mimetype });
             const deliverPath = path_1.default.join('static', 'files', flowspace.params.hash, decodeURI(flowspace.params.filename));
@@ -33,7 +44,7 @@ const get = function (req, res, flowspace) {
 };
 exports.get = get;
 const put = function (req, res, flowspace) {
-    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         if (flowspace.body) {
             const body = flowspace.body;
             if (body.name) {
@@ -64,7 +75,7 @@ const put = function (req, res, flowspace) {
 exports.put = put;
 const del = function (req, res, flowspace) {
     var _a;
-    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         if ((_a = flowspace.params) === null || _a === void 0 ? void 0 : _a.id) {
             const filePath = yield files_1.Files.deleteFile(flowspace.params.id);
             fs_1.default.unlinkSync(filePath);

@@ -1,5 +1,5 @@
 #  Init Environment
-FROM keymetrics/pm2:16-alpine
+FROM node:18
 
 #Build APP
  COPY build/ .
@@ -7,11 +7,13 @@ FROM keymetrics/pm2:16-alpine
  COPY ecosystem.config.cjs .
 
 ENV NPM_CONFIG_LOGLEVEL warn
-RUN npm install --production
+RUN npm install pm2 -g
+RUN npm install
+
 
 EXPOSE 4000
 
-CMD [ "pm2-runtime", "start", "ecosystem.config.js" ]
+CMD [ "pm2-runtime", "start", "ecosystem.config.cjs" ]
 
 
 #  # Init Environment

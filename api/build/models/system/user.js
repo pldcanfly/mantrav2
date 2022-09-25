@@ -1,13 +1,24 @@
 'use strict';
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
-const tslib_1 = require("tslib");
 const config_1 = require("../../config/config");
-const crypto_1 = tslib_1.__importDefault(require("crypto"));
+const crypto_1 = __importDefault(require("crypto"));
 const appspace_1 = require("../../appspace");
 class UserModel {
     getAllUsers() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             return appspace_1.appspace.db
                 .query('user')
                 .execute()
@@ -15,7 +26,7 @@ class UserModel {
         });
     }
     deleteUser(id) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             return appspace_1.appspace.db
                 .query('user')
                 .delete()
@@ -25,7 +36,7 @@ class UserModel {
         });
     }
     getUserById(id) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             return appspace_1.appspace.db
                 .query('user')
                 .where('id', '=', id)
@@ -34,7 +45,7 @@ class UserModel {
         });
     }
     getUserByUsername(search) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             return appspace_1.appspace.db
                 .query('user')
                 .where('username', '=', search)
@@ -43,7 +54,7 @@ class UserModel {
         });
     }
     checkPassword(login, password) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             const user = yield this.getUserByUsername(login);
             if (user) {
                 const salt = user.password.split(config_1.session.salt)[0];
@@ -68,7 +79,7 @@ class UserModel {
         return `${salt}${config_1.session.salt}${crypto_1.default.createHash('sha256').update(password).digest('base64')}`;
     }
     createUser(name, password) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             return appspace_1.appspace.db
                 .query('user')
                 .insert()
@@ -79,7 +90,7 @@ class UserModel {
         });
     }
     updateUser(id, user) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             const query = appspace_1.appspace.db.query('user').update();
             if (user.username)
                 query.set('username', user.username.trim());
@@ -92,7 +103,7 @@ class UserModel {
         });
     }
     setPassword(id, password) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             return appspace_1.appspace.db
                 .query('user')
                 .update()
