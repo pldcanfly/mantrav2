@@ -4,7 +4,7 @@
 
 	let raid: iRaid = {
 		name: '',
-		date: '',
+		date: new Date().toISOString(),
 		description: '',
 		icon: 'unknown',
 		size: 25,

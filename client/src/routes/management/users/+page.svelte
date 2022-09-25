@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Label from '$components/form/Label.svelte';
 	import { API } from '$lib/api';
+
 	import type { iUser } from 'src/app';
 
 	export let data: { users: Array<iUser> };

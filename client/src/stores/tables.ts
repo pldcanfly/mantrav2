@@ -298,7 +298,20 @@ import kj from '$icons/icons/kj.png';
 import naxx from '$icons/icons/naxx.png';
 import vashij from '$icons/icons/vashij.png';
 
+import anub from '$icons/icons/anub.png';
+import arthas from '$icons/icons/arthas.png';
+import malygos from '$icons/icons/malygos.png';
+import obsi from '$icons/icons/obsi.png';
+import yogg from '$icons/icons/yogg.png';
+import ony from '$icons/icons/ony.png';
+
 export const icons = new Map([
+	['anub', anub],
+	['arthas', arthas],
+	['malygos', malygos],
+	['obsi', obsi],
+	['yogg', yogg],
+	['ony', ony],
 	['archimonde', archimonde],
 	['grulls', grulls],
 	['illidan', illidan],

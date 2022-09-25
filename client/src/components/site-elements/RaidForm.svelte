@@ -20,9 +20,9 @@
 
 	export let raid: iRaid;
 
-	let date = new Date();
+	let date = new Date(raid.date);
 
-	let invited: Map<number, iCharacter> = new Map();
+	let invited: Map<string, iCharacter> = new Map();
 	for (const signup of raid.signups) {
 		invited.set(signup.character.id, signup.character);
 	}
@@ -70,16 +70,21 @@
 </script>
 
 <h2>Raidinformationen</h2>
-{raid.id}
-{raid.icon}
 
 <div class="raidform">
-	<IconSelect bind:icon={raid.icon} />
-	<Label label="Name"><input type="text" bind:value={raid.name} /></Label>
-	<Label label="Beschreibung" labelontop><textarea bind:value={raid.description} /></Label>
-	<Label label="Größe"><input type="number" bind:value={raid.size} max="40" min="1" /></Label>
-	<Label label="Startzeitpunkt"><DateInput bind:value={date} /></Label>
-	<button class="button" on:click={saveRaid}>Speichern</button>
+	<div class="icon"><IconSelect bind:icon={raid.icon} /></div>
+
+	<div class="name"><Label label="Name"><input type="text" bind:value={raid.name} /></Label></div>
+	<div class="desc">
+		<Label label="Beschreibung" labelontop><textarea bind:value={raid.description} /></Label>
+	</div>
+	<div class="size">
+		<Label label="Größe"><input type="number" bind:value={raid.size} max="40" min="1" /></Label>
+	</div>
+	<div class="date">
+		<Label label="Startzeitpunkt"><DateInput bind:value={date} closeOnSelection /></Label>
+	</div>
+	<div class="save"><button class="button" on:click={saveRaid}>Speichern</button></div>
 </div>
 
 <h2>Einladungen</h2>
@@ -104,21 +109,72 @@
 <style lang="scss">
 	@import '../../scss/global.scss';
 
+	.icon {
+		grid-area: icon;
+	}
+
+	.name {
+		grid-area: name;
+	}
+	.desc {
+		grid-area: desc;
+	}
+	.size {
+		grid-area: size;
+	}
+	.date {
+		grid-area: date;
+	}
+	.save {
+		grid-area: save;
+	}
+
 	.raidform {
 		display: grid;
 		gap: 10px;
+
+		grid-template-columns: 1fr;
+		grid-template-areas:
+			'icon '
+			' name '
+			'date'
+			'size'
+			'desc'
+			'save';
+
+		@media screen and (min-width: 450px) {
+			grid-template-columns: 100px 1fr;
+			grid-template-areas:
+				' icon name '
+				'icon date'
+				'icon size'
+				'icon desc'
+				'icon save';
+		}
 
 		--date-picker-foreground: var(--c__text);
 		--date-picker-background: var(--c__lighter_background);
 		--date-picker-highlight-border: var(--c__light-green);
 
 		--date-picker-selected-background: var(--c__green);
+		--date-input-width: 100%;
 
+		.date {
+			:global(input) {
+				padding: 11px;
+				background-color: var(--c__lighter_background);
+				border: 1px solid var(--c__highlight);
+				color: var(--c__text);
+				outline: none;
+				border-radius: 0;
+			}
+		}
 		button {
 			@include green-hoverable;
 			border: 0;
 			padding: 15px;
 			color: var(--c__text);
+			width: 100%;
 		}
 	}
 

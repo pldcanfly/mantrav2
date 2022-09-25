@@ -23,7 +23,6 @@
 </script>
 
 <div class="iconselect">
-	{icon}
 	<img src={icons.get(icon)} alt="Icon" class="raidicon" on:click={onEdit} />
 	{#if selecting}
 		<div class="select">

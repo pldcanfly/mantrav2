@@ -95,7 +95,9 @@
 <h1>{raid.name}</h1>
 
 {#if hasPerm('raidmanagement')}
-	<a href="/raids/{raid.id}/edit">Raid bearbeiten</a>
+	<div class="editraid">
+		<a class="button" href="/raids/{raid.id}/edit">Raid bearbeiten</a>
+	</div>
 {/if}
 
 <div class="header">
@@ -217,6 +219,20 @@
 </div>
 
 <style lang="scss">
+	@import '../../../scss/global.scss';
+	.button {
+		@include green-hoverable;
+		color: var(--c__text);
+		padding: 15px;
+		display: block;
+		width: 100%;
+		max-width: 250px;
+		text-align: center;
+		float: right;
+
+		margin-bottom: 20px;
+	}
+
 	h2 {
 		text-align: center;
 	}

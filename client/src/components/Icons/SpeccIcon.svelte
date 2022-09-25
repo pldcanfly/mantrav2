@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { speccTable } from '$store/tables';
+	import type { Specc } from 'src/app';
 
 	export let specc: Specc;
 	export let offspecc: Specc | undefined = undefined;
@@ -14,7 +15,7 @@
 	style:height="{size}px"
 	on:click={click}
 >
-	{#if offspecc}
+	{#if offspecc && offspecc !== 'unknown'}
 		<div
 			class="offspeccicon"
 			style:background-image="url({speccTable[offspecc].icon})"

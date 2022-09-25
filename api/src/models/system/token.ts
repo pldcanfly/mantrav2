@@ -123,7 +123,7 @@ class TokenModel {
       }
     } else if (await this.issuerExists(refreshtoken)) {
       await this.invalidateIssuer(refreshtoken);
-      logger.alert('Token Error: REFRESH TOKEN REUSED!');
+      logger.error('Token Error: REFRESH TOKEN REUSED!');
       return false;
     } else {
       logger.error('Token Error: Unknown Token');

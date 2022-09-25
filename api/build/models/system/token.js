@@ -119,7 +119,7 @@ class TokenModel {
             }
             else if (yield this.issuerExists(refreshtoken)) {
                 yield this.invalidateIssuer(refreshtoken);
-                appspace_1.logger.alert('Token Error: REFRESH TOKEN REUSED!');
+                appspace_1.logger.error('Token Error: REFRESH TOKEN REUSED!');
                 return false;
             }
             else {

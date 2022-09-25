@@ -42,13 +42,19 @@
 </script>
 
 <h1>Raids</h1>
-<br />
 
-Weekend: <input type="checkbox" bind:checked={showWeekend} />
-
-{#if hasPerm('raidmanagement')}
-	<a href="/raids/new">Neuer Raid</a>
-{/if}
+<div class="controls">
+	{#if hasPerm('raidmanagement')}
+		<a class="button" href="/raids/new">Neuer Raid</a>
+	{/if}
+	<div>
+		<label for="weekends">Wochenden:</label><input
+			id="weekends"
+			type="checkbox"
+			bind:checked={showWeekend}
+		/>
+	</div>
+</div>
 
 <div class="nav">
 	<div class="prevmonth switcher noselect" on:click={() => (date = subMonths(date, 1))}>
@@ -106,6 +112,22 @@ Weekend: <input type="checkbox" bind:checked={showWeekend} />
 
 <style lang="scss">
 	@import '../../scss/global.scss';
+
+	.controls {
+		display: grid;
+		justify-content: center;
+	}
+	.button {
+		@include green-hoverable;
+		color: var(--c__text);
+		padding: 15px;
+		display: block;
+		width: 100%;
+		max-width: 490px;
+		text-align: center;
+		margin: 0 auto;
+		margin-bottom: 20px;
+	}
 
 	.nav {
 		display: flex;

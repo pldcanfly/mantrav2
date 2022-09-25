@@ -2,12 +2,13 @@
 	import ClassIcon from '$components/Icons/ClassIcon.svelte';
 	import SpeccIcon from '$components/Icons/SpeccIcon.svelte';
 	import { classTable } from '$store/tables';
+	import type { Clazz, Specc } from 'src/app';
 
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
-	export let specc: Specc = 'unknown';
-	export let offspecc: Specc | undefined = undefined;
+	export let specc: Specc | undefined = 'unknown';
+	export let empty: boolean = false;
 	export let clazz: Clazz;
 
 	let selecting = false;
@@ -16,17 +17,9 @@
 		selecting = true;
 	};
 
-	const onSelect = (newspecc: Specc) => {
+	const onSelect = (newspecc: Specc | undefined) => {
 		return () => {
 			specc = newspecc;
-			dispatch('select');
-			selecting = false;
-		};
-	};
-
-	const onSelectOffspec = (newspecc: Specc | undefined) => {
-		return () => {
-			offspecc = newspecc;
 			dispatch('select');
 			selecting = false;
 		};
@@ -34,21 +27,15 @@
 </script>
 
 <div class="speccselect">
-	<SpeccIcon {specc} {offspecc} click={onEdit} />
+	<SpeccIcon {specc} click={onEdit} />
 	{#if selecting}
 		<div class="select">
-			Main:
 			<div class="main specclist">
+				{#if empty}
+					<SpeccIcon specc="unknown" click={onSelect(undefined)} />
+				{/if}
 				{#each classTable[clazz].speccs as clazzspecc}
 					<SpeccIcon specc={clazzspecc} click={onSelect(clazzspecc)} />
-				{/each}
-			</div>
-			Second:
-			<div class="off specclist">
-				<SpeccIcon specc="unknown" click={onSelectOffspec(undefined)} />
-
-				{#each classTable[clazz].speccs as clazzspecc}
-					<SpeccIcon specc={clazzspecc} click={onSelectOffspec(clazzspecc)} />
 				{/each}
 			</div>
 		</div>
@@ -57,16 +44,19 @@
 
 <style lang="scss">
 	.select {
+		width: 100%;
+		height: 100%;
 		z-index: 2;
-		top: 4px;
-		left: 5px;
+		top: 0;
+		left: 0;
+		opacity: 0.9;
 		position: absolute;
 		display: grid;
-		grid-template-rows: 1fr 1fr;
-		grid-template-columns: 1fr 1fr;
+		justify-items: center;
+
 		gap: 3px;
 		background-color: var(--c__lighter_background);
-		padding: 3px;
+
 		box-shadow: var(--c__shadow);
 		align-items: center;
 	}

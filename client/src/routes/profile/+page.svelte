@@ -1,5 +1,6 @@
 <script lang="ts">
 	export let data;
+	import Character from '$components/character/Character.svelte';
 	import CharacterCard from '$components/character/CharacterCard.svelte';
 	import Label from '$components/form/Label.svelte';
 	import Icon from '$components/Icon.svelte';
@@ -12,20 +13,28 @@
 	let password1 = '';
 	let password2 = '';
 
-	let characters: Map<number, iCharacter> = new Map();
+	let characters: Map<string, iCharacter> = new Map();
 
 	for (const char of data.characters) {
 		characters.set(char.id, char);
 	}
 
+	const reloadUsers = async () => {
+		const newchars = (await API({ url: '/characters/mine' })).data.message as Array<iCharacter>;
+		characters = new Map();
+		for (const char of newchars) {
+			characters.set(char.id, char);
+		}
+	};
+
 	const addCharacter = () => {
 		if ($accountid !== 0) {
-			characters.set(-1, {
-				id: '-1',
-				name: '',
-				race: 'tauren',
-				clazz: 'rogue',
-				specc: 'waffli',
+			characters.set(`${characters.size * -1}`, {
+				id: `${characters.size * -1}`,
+				name: 'INeedAName',
+				race: 'unknown',
+				clazz: 'unknown',
+				specc: 'unknown',
 				female: false,
 				accountid: $accountid.toString()
 			});
@@ -72,13 +81,12 @@
 
 <div class="characters">
 	{#each [...characters.entries()] as [_, character]}
-		<CharacterCard {character} />
+		<CharacterCard {character} edit={parseInt(character.id) < 0} on:deleted={reloadUsers} />
 	{/each}
-	{#if !characters.has(-1)}
-		<div class="newcharacter" on:click={addCharacter}>
-			<Icon path={mdiPlus} width={'25px'} />
-		</div>
-	{/if}
+
+	<div class="newcharacter" on:click={addCharacter}>
+		<Icon path={mdiPlus} width={'25px'} />
+	</div>
 </div>
 
 <style lang="scss">
