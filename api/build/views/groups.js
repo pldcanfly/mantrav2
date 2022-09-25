@@ -1,7 +1,15 @@
 'use strict';
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GroupView = exports.post = exports.get = exports.name = void 0;
-const tslib_1 = require("tslib");
 const zod_1 = require("zod");
 const appspace_1 = require("../appspace");
 const groups_1 = require("../models/groups");
@@ -18,7 +26,7 @@ const POSTrequest = zod_1.z
 })
     .array();
 const insertMember = function (groups) {
-    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         if (Array.isArray(groups)) {
             let result = [];
             for (const group of groups) {
@@ -37,7 +45,7 @@ const insertMember = function (groups) {
     });
 };
 const get = function (req, res, flowspace) {
-    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         try {
             const params = GETrequest.parse(flowspace.params);
             if (params.id)
@@ -53,7 +61,7 @@ const get = function (req, res, flowspace) {
 };
 exports.get = get;
 const post = function (req, res, flowspace) {
-    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         try {
             const body = POSTrequest.parse(flowspace.body);
             for (const grp of body) {

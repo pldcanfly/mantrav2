@@ -1,8 +1,10 @@
 'use strict';
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const node_http_1 = tslib_1.__importDefault(require("node:http"));
-const socket_io_1 = tslib_1.__importDefault(require("socket.io"));
+const node_http_1 = __importDefault(require("node:http"));
+const socket_io_1 = __importDefault(require("socket.io"));
 const wsnamespaces_1 = require("../config/wsnamespaces");
 const appspace_1 = require("../appspace");
 class Flow {

@@ -3,7 +3,7 @@
     "lib": ["es2021"],
     "module": "commonjs",
     "target": "ES6",
-    "importHelpers": true,
+    "importHelpers": false,
     "outDir": "./build",
     "rootDir": "./src",
     "checkJs": true,

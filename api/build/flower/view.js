@@ -1,12 +1,23 @@
 'use strict';
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.flow = exports.name = void 0;
-const tslib_1 = require("tslib");
 const appspace_1 = require("../appspace");
-const jstoxml_1 = tslib_1.__importDefault(require("jstoxml"));
+const jstoxml_1 = __importDefault(require("jstoxml"));
 // EXPORTS
 exports.name = 'View';
-const executeview = (req, res, flowspace) => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
+const executeview = (req, res, flowspace) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
     if (flowspace.view) {
         switch ((_a = req.method) === null || _a === void 0 ? void 0 : _a.toLowerCase()) {
@@ -30,7 +41,7 @@ const executeview = (req, res, flowspace) => tslib_1.__awaiter(void 0, void 0, v
     }
 });
 const flow = function (req, res, flowspace, next) {
-    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         if (flowspace.view) {
             flowspace.message = yield executeview(req, res, flowspace);
             appspace_1.logger.info(`View v2: Executed ${flowspace.view.name} ${res.statusCode}`);

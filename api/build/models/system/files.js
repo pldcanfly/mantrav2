@@ -1,12 +1,20 @@
 'use strict';
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Files = void 0;
-const tslib_1 = require("tslib");
 const crypto_1 = require("crypto");
 const appspace_1 = require("../../appspace");
 class FilesModel {
     insertFile(filename, path, type, size, ip) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             const key = (0, crypto_1.randomFillSync)(Buffer.alloc(16)).toString('hex');
             return appspace_1.appspace.db
                 .query('files')
@@ -22,7 +30,7 @@ class FilesModel {
         });
     }
     getFile(id) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             return appspace_1.appspace.db
                 .query('files')
                 .where('id', '=', id)
@@ -31,7 +39,7 @@ class FilesModel {
         });
     }
     deleteFile(deletekey) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             const record = yield appspace_1.appspace.db
                 .query('files')
                 .where('deletekey', '=', deletekey)

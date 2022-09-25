@@ -1,14 +1,22 @@
 'use strict';
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.flow = exports.name = void 0;
-const tslib_1 = require("tslib");
 const user_1 = require("../models/system/user");
 const token_1 = require("../models/system/token");
 const appspace_1 = require("../appspace");
 const acl_1 = require("../models/system/acl");
 const zod_1 = require("zod");
 const login = function (res, flowspace) {
-    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         try {
             var body = zod_1.z
                 .object({
@@ -38,7 +46,7 @@ const login = function (res, flowspace) {
     });
 };
 const logout = function (req, res, flowspace) {
-    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         if (req.headers.authorization) {
             flowspace.message = yield token_1.Token.invalidateToken(req.headers.authorization.slice(7)); // Slice "Bearer " off
         }
@@ -51,7 +59,7 @@ const logout = function (req, res, flowspace) {
     });
 };
 const refresh = function (req, res, flowspace) {
-    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         if (req.headers.authorization) {
             const tokenpair = yield token_1.Token.issueTokenPairWithRefresh(req.headers.authorization.slice(7)); // Slice "Bearer " off
             if (tokenpair) {
@@ -72,7 +80,7 @@ const refresh = function (req, res, flowspace) {
 };
 const createSession = function (req, res, flowspace) {
     var _a;
-    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         if (!((_a = req.url) === null || _a === void 0 ? void 0 : _a.startsWith('/auth'))) {
             if (req.headers.authorization) {
                 const user = yield token_1.Token.validateToken(req.headers.authorization.slice(7));
@@ -99,7 +107,7 @@ const createSession = function (req, res, flowspace) {
 exports.name = 'Auth';
 const flow = function (req, res, flowspace, next) {
     var _a;
-    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         // Catch Auth-URLS
         if ((_a = req.url) === null || _a === void 0 ? void 0 : _a.startsWith('/auth')) {
             appspace_1.logger.info('Auth-URL detected');

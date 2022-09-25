@@ -1,7 +1,15 @@
 'use strict';
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Raid = void 0;
-const tslib_1 = require("tslib");
 const appspace_js_1 = require("../appspace.js");
 //id: 1,
 // 		name: 'Toller Raid',
@@ -26,7 +34,7 @@ const appspace_js_1 = require("../appspace.js");
 // 			},
 class RaidModel {
     getRaids() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             return appspace_js_1.appspace.db
                 .query('raids')
                 .fields(['id', 'name', 'size', 'date'])
@@ -35,7 +43,7 @@ class RaidModel {
         });
     }
     getRaidById(id) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             return appspace_js_1.appspace.db
                 .query('raids')
                 .where('id', '=', id)
@@ -44,7 +52,7 @@ class RaidModel {
         });
     }
     insertRaid(raid) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             delete raid.id;
             return appspace_js_1.appspace.db
                 .query('raids')
@@ -55,7 +63,7 @@ class RaidModel {
         });
     }
     updateRaid(raid) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             return appspace_js_1.appspace.db
                 .query('raids')
                 .update()
