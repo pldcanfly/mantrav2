@@ -3,35 +3,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const node_http_1 = tslib_1.__importDefault(require("node:http"));
 const socket_io_1 = tslib_1.__importDefault(require("socket.io"));
-const rooms_1 = require("../config/rooms");
+const wsnamespaces_1 = require("../config/wsnamespaces");
 const appspace_1 = require("../appspace");
 class Flow {
     constructor() {
         this.flowers = [];
         appspace_1.logger.info('Flow v2: Init');
         this.server = node_http_1.default.createServer(this.flowHandler());
+        // WEBSOCKETS
         this.wsserver = new socket_io_1.default.Server(this.server, {
             cors: { origin: '*' },
         });
-        this.initWSS();
-        return this;
-    }
-    initWSS() {
-        for (const room of rooms_1.rooms) {
-            appspace_1.logger.info(`Websocket: Adding room: ${room.name}`);
-            if (room.events) {
-                this.wsserver.of(room.name).on('connection', (socket) => {
-                    const namespace = socket.nsp.name;
-                    socket.join(namespace);
-                    socket.emit('joined', namespace);
-                    for (const event of room.events) {
-                        if (room.handler[event]) {
-                            socket.on(event, (message) => room.handler[event]((event, data) => socket.to(namespace).emit(event, data), message));
-                        }
-                    }
-                });
-            }
+        for (const namespace of wsnamespaces_1.namespaces) {
+            appspace_1.logger.info(`Websocket: Adding namespace: ${namespace.name}`);
+            const handler = new namespace.handler(this.wsserver, namespace);
+            appspace_1.appspace.namespaces.set(namespace.name, handler);
         }
+        return this;
     }
     listen() {
         if (process.env.NODE_PORT) {

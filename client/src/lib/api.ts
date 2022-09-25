@@ -1,10 +1,10 @@
 import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios';
-import { session } from '$store/session';
+import { isValidRefreshToken, refresh, logout, isValidAccessToken } from '$store/session';
 
 const APIURL = import.meta.env.VITE_API_URL;
 
 export interface APIRequest {
-	method: string;
+	method?: string;
 	url: string;
 	data?: { [propName: string]: any };
 	config?: AxiosRequestConfig;
@@ -25,32 +25,32 @@ export async function API({
 	progresshandler
 }: APIRequest) {
 	const options: AxiosRequestConfig = {
-		method,
+		method: method || 'get',
 		url: APIURL + url,
 		data,
 		headers: headers || {},
 		...config
 	};
 
-	console.log(options);
 	if (progresshandler) {
 		options.onUploadProgress = (progressEvent: ProgressEvent) => {
 			progresshandler(progressEvent);
 		};
 	}
 
+	// AUTH skipped ... just go!
 	if (skipAuth) return axios(options);
 
-	if (session.isValidAccessToken() && url != 'auth/refresh') {
+	if (isValidAccessToken() && url !== '/auth/refresh') {
 		// ACCESS VALID AND NO AUTH URL
 		if (options.headers)
 			options.headers.authorization = `Bearer ${localStorage.getItem('accessToken')}`;
-	} else if (session.isValidRefreshToken() && url != 'auth/refresh') {
-		// ACCESS VALID AND NO AUTH URL
-		const refresh = await session.action.refresh();
-		if (!refresh) {
+	} else if (isValidRefreshToken() && url !== '/auth/refresh') {
+		// REFRESH VALID AND NO AUTH URL
+
+		if (!(await refresh())) {
 			// NOT EVEN REFRESH WORKED JUST LOG OUT
-			session.action.logout();
+			logout();
 		}
 	}
 

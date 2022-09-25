@@ -4,6 +4,7 @@
 	import SpeccIcon from '../Icons/SpeccIcon.svelte';
 
 	import { classTable } from '$store/tables';
+	import type { iCharacter } from 'src/app';
 
 	export let character: iCharacter;
 </script>

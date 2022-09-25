@@ -3,6 +3,7 @@
 
 	export let size: number = 45;
 	export let clazz: Clazz;
+	export let click: any = () => undefined;
 </script>
 
 <div
@@ -10,6 +11,7 @@
 	style:background-image="url({classTable[clazz].icon})"
 	style:width="{size}px"
 	style:height="{size}px"
+	on:click={click}
 />
 
 <style lang="scss">

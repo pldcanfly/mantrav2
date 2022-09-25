@@ -43,7 +43,7 @@ specifiers:
   tslib: ^2.4.0
   typescript: ^4.0.0
   winston: ^3.3.3
-  zod: ^3.17.10
+  zod: ^3.19.0
 
 dependencies:
   axios: 0.27.2
@@ -65,7 +65,7 @@ dependencies:
   rimraf: 3.0.2
   socket.io: 4.5.1
   winston: 3.8.1
-  zod: 3.17.10
+  zod: 3.19.0
 
 devDependencies:
   '@babel/core': 7.18.9
@@ -4830,6 +4830,6 @@ packages:
       toposort: 2.0.2
     dev: false
 
-  /zod/3.17.10:
-    resolution: {integrity: sha512-IHXnQYQuOOOL/XgHhgl8YjNxBHi3xX0mVcHmqsvJgcxKkEczPshoWdxqyFwsARpf41E0v9U95WUROqsHHxt0UQ==}
+  /zod/3.19.0:
+    resolution: {integrity: sha512-Yw0qvUsCNGBe5YacikdMt5gVYeUuaEFVDIHKMfElrGSaBhwR3CQK6vOzgfAJOjTdGIhEeoaj8GtT+NDZrepZbw==}
     dev: false

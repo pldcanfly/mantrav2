@@ -80,7 +80,7 @@ class TokenModel {
   }
 
   async invalidateIssuer(token: string) {
-    return appspace.db?.query('activetokens').delete(true).where('issuer', '=', token).execute();
+    return appspace.db?.query('activetokens').delete().where('issuer', '=', token).execute();
   }
 
   async issueTokenPairWithCredentials(user: UserRecord) {
@@ -123,7 +123,7 @@ class TokenModel {
       }
     } else if (await this.issuerExists(refreshtoken)) {
       await this.invalidateIssuer(refreshtoken);
-      logger.alert('Token Error: REFRESH TOKEN REUSED!');
+      logger.error('Token Error: REFRESH TOKEN REUSED!');
       return false;
     } else {
       logger.error('Token Error: Unknown Token');
