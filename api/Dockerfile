@@ -2,7 +2,6 @@
 FROM keymetrics/pm2:16-alpine
 
 #Build APP
- WORKDIR /app
  COPY build/ .
  COPY package.json .
  COPY ecosystem.config.cjs .
